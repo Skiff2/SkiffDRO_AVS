@@ -20,6 +20,7 @@ public class ModelLathe implements Serializable {
     double ScalesDsetY = 0; //Установленный размер диаметра
     double ScasesDfixY = 0; //АБСОЛЮТНОЕ значение линейки для установленного диаметра
 
+    //Применение значения линейки по X
     public void setScalesValX(Double ScalesValX) {
         this.ScalesValX = ScalesValX;
         X = Utils.ValToPrint((ScalesValX-ScalesOffsetX));
@@ -29,6 +30,8 @@ public class ModelLathe implements Serializable {
         else
             D = Utils.ValToPrint(ScalesDsetX - (ScasesDfixX - ScalesValX)*-1);
     }
+
+    //Применение значения линейки по Z
     public void setScalesValZ(Double ScalesValY) {
         this.ScalesValY = ScalesValY;
         Z = Utils.ValToPrint((ScalesValY-ScalesOffsetY));
@@ -39,18 +42,34 @@ public class ModelLathe implements Serializable {
             L = Utils.ValToPrint(ScalesDsetY - (ScasesDfixY - ScalesValY)*-1);
     }
 
+    //Установка диаметра от ТЕКУЩЕЙ позиции
     public void setD(double ScalesDsetX)
     {
         this.ScalesDsetX = ScalesDsetX;
         ScasesDfixX = ScalesValX;
     }
 
+    //Установка диаметра с оффсетом позиции
+    public void setD(double ScalesDsetX, double ScasesDfixX)
+    {
+        this.ScalesDsetX = ScalesDsetX;
+        this.ScasesDfixX = ScasesDfixX;
+    }
+
+    //Устаовка длины от ТЕКУЩЕЙ позиции
     public void setL(double ScalesDsetY)
     {
         this.ScalesDsetY = ScalesDsetY;
         ScasesDfixY = ScalesValY;
     }
+    //Установка длины с оффсетом позиции
+    public void setL(double ScalesDsetY, double ScasesDfixY)
+    {
+        this.ScalesDsetY = ScalesDsetY;
+        this.ScasesDfixY = ScasesDfixY;
+    }
 
+    //Обнуление относительных координат
     public void SetX0(){ScalesOffsetX = ScalesValX;}
     public void SetZ0(){ScalesOffsetY = ScalesValY;}
 }
