@@ -101,4 +101,8 @@ public class LatheMain extends Fragment implements BTEvent {
     public double getScalesLsetX() { return binding.getMLathe().ScalesLsetZ; }
     //АБСОЛЮТНОЕ значение линейки для установленной длины
     public double getScalesLfixX() { return binding.getMLathe().ScalesLsetZ; }
+
+    //Получение привязанных координат
+    public double getX() { return binding.getMLathe().getX();}
+    public double getZ() { return binding.getMLathe().getZ();}
 }

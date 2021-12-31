@@ -82,4 +82,9 @@ public class ModelMilling implements Serializable {
     public void setShowResetY(boolean showResetY) {
         ShowResetY = showResetY;
     }
+
+    //Получение привязанных координат
+    public double getX(){ return ScalesValX-ScalesOffsetX; }
+    public double getY(){ return ScalesValX-ScalesOffsetY; }
+    public double getZ(){ return ScalesValZ-ScalesOffsetZ; }
 }

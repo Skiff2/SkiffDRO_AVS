@@ -8,7 +8,7 @@ import com.home.skiffdro.common.Utils;
 import java.io.Serializable;
 
 public class ModelLathe implements Serializable {
-    public String D, L, X, Z;
+    public String D, L, X, Z; //Экранные оторбажаемые значения
 
     double ScalesOffsetX = 0; //Значение локального обнуления
     double ScalesValX = 0; //текущее АБСОЛЮТНОЕ значение линейки
@@ -76,4 +76,8 @@ public class ModelLathe implements Serializable {
     //Установлены ли абсолютные значения диаметра и длины
     public boolean DSetted() { return (ScalesDsetX == 0);}
     public boolean LSetted() { return (ScalesLsetZ == 0);}
+
+    //Получение привязанных координат
+    public double getX(){ return ScalesValX-ScalesOffsetX; }
+    public double getZ(){ return ScalesValZ-ScalesOffsetZ; }
 }

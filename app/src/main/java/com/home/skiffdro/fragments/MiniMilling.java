@@ -61,4 +61,9 @@ public class MiniMilling extends Fragment implements BTEvent {
     public void setScalesOffsetX(double val){binding.getMMilling().ScalesOffsetX = val; }
     public void setScalesOffsetY(double val){binding.getMMilling().ScalesOffsetY = val; }
     public void setScalesOffsetZ(double val){binding.getMMilling().ScalesOffsetZ = val; }
+
+    //Получение привязанных координат
+    public double getX() { return binding.getMMilling().getX();}
+    public double getY() { return binding.getMMilling().getY();}
+    public double getZ() { return binding.getMMilling().getZ();}
 }

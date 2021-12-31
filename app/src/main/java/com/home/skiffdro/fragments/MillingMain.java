@@ -57,15 +57,11 @@ public class MillingMain extends Fragment implements BTEvent {
         binding.invalidateAll();
     }
 
-    public boolean CenterXFound()
-    {
-        return binding.getMMilling().X1Setted() && binding.getMMilling().X2Setted();
-    }
-    public boolean CenterYFound()
-    {
-        return binding.getMMilling().Y1Setted() && binding.getMMilling().Y2Setted();
-    }
+    //Найдены ли центры?
+    public boolean CenterXFound(){ return binding.getMMilling().X1Setted() && binding.getMMilling().X2Setted(); }
+    public boolean CenterYFound(){ return binding.getMMilling().Y1Setted() && binding.getMMilling().Y2Setted(); }
 
+    //Получение координат вычисленного центра
     public double CenterX() {
         return binding.getMMilling().CenterX;
     }

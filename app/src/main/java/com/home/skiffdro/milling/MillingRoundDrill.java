@@ -27,6 +27,7 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
 
     ArrayList<ItemModel> states = new ArrayList<>();
     RecyclerView recyclerView;
+    MiniMilling display;
 
     double CenterX = 0;
     double CenterY = 0;
@@ -46,7 +47,7 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
 
         Bundle arguments = getIntent().getExtras();
 
-        MiniMilling display = (MiniMilling) getSupportFragmentManager().findFragmentById(R.id.fragmentMiniCoordinate);
+        display = (MiniMilling) getSupportFragmentManager().findFragmentById(R.id.fragmentMiniCoordinate);
         display.HideResetX();
         display.HideResetY();
 
@@ -114,22 +115,24 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
 
     @Override
     public void RefreshBTData() {
+        try {
+            for (int i = 0; i < states.size(); i++) {
+                ItemModel m = states.get(i);
+                if (Math.abs(m.getX() - display.getX()) < 0.05 && Math.abs(m.getS() - display.getY()) < 0.05) {
+                    m.setFoud(true);
+                    m.setCheck(true);
 
-//        for (int i = 0; i < states.size(); i ++) {
-//            ItemModel m = states.get(i);
-//            if (Math.abs(m.getX() -11111) < 0.05) {
-//                m.setFoud(true);
-//                m.setCheck(true);
-//
-//                RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
-//                RecyclerView.SmoothScroller smoothScroller = new CenterSmoothScroller(recyclerView.getContext());
-//                smoothScroller.setTargetPosition(i);
-//                lm.startSmoothScroll(smoothScroller);
-//            }
-//            else
-//                m.setFoud(false);
-//        }
-//        recyclerView.getAdapter().notifyDataSetChanged();
+                    RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
+                    RecyclerView.SmoothScroller smoothScroller = new CenterSmoothScroller(recyclerView.getContext());
+                    smoothScroller.setTargetPosition(i);
+                    lm.startSmoothScroll(smoothScroller);
+                } else
+                    m.setFoud(false);
+            }
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+        catch(Exception ex)
+        {}
     }
 
     @Override
