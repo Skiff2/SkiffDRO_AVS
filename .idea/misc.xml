@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/activity_lathe_boll.xml" value="0.2" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/activity_lathe_pulley.xml" value="0.11448834853090173" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/activity_lathe_thread.xml" value="0.2" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/activity_milling_round_drill.xml" value="0.2" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/fragment_lathe_main.xml" value="0.2283464566929134" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/fragment_milling_main.xml" value="0.23541666666666666" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/fragment_mini_coordinate.xml" value="0.2" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/fragment_mini_lathe.xml" value="0.246875" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/fragment_mini_milling.xml" value="0.18489583333333334" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/input_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/list_item.xml" value="0.246875" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

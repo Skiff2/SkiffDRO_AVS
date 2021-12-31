@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="mLathe"
+            type="com.home.skiffdro.models.ModelLathe"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragments.LatheMain">
+
+        <!-- TODO: Update blank fragment layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E0FFFF"
+                android:paddingBottom="5dp"
+                android:stretchColumns="1">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="20dp"
+                        android:text="X:"
+                        android:textColor="#000080"
+                        android:textSize="42dp" />
+
+                    <TextView
+                        android:id="@+id/lblX"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000080"
+                        android:textSize="70dp"
+                        android:text="@{mLathe.X}"/>
+
+                    <Button
+                        android:id="@+id/cmdResetX"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Обнулить"
+                        android:onClick="@{() -> mLathe.SetX0()}"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textViewD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="20dp"
+                        android:text="D:"
+                        android:textColor="#000080"
+                        android:textSize="42dp" />
+
+                    <TextView
+                        android:id="@+id/lblD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000080"
+                        android:textSize="70dp"
+                        android:text="@{mLathe.D}"/>
+
+                    <Button
+                        android:id="@+id/cmdSetD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Задать" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="20dp"
+                        android:text="Z:"
+                        android:textColor="#000080"
+                        android:textSize="42dp" />
+
+                    <TextView
+                        android:id="@+id/lblY"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mLathe.Z}"
+                        android:textColor="#000080"
+                        android:textSize="70dp" />
+
+                    <Button
+                        android:id="@+id/cmdResetY"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Обнулить"
+                        android:onClick="@{() -> mLathe.SetZ0()}"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="20dp"
+                        android:text="L:"
+                        android:textColor="#000080"
+                        android:textSize="42dp" />
+
+                    <TextView
+                        android:id="@+id/lblL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mLathe.L}"
+                        android:textColor="#000080"
+                        android:textSize="70dp" />
+
+                    <Button
+                        android:id="@+id/cmdSetL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Задать" />
+                </TableRow>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/cmdSetTol1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="1"
+                        android:textSize="32dp"
+                        app:layout_constraintEnd_toStartOf="@+id/cmdSetTol2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/cmdSetTol2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="2"
+                        android:textSize="32dp"
+                        app:layout_constraintEnd_toStartOf="@+id/cmdSetTol3"
+                        app:layout_constraintStart_toEndOf="@+id/cmdSetTol1"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/cmdSetTol3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="3"
+                        android:textSize="32dp"
+                        app:layout_constraintEnd_toStartOf="@+id/cmdSetTol4"
+                        app:layout_constraintStart_toEndOf="@+id/cmdSetTol2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/cmdSetTol4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="4"
+                        android:textSize="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/cmdSetTol3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </TableLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

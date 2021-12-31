@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="mMilling"
+            type="com.home.skiffdro.models.ModelMilling"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragments.MillingMain">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E0FFFF"
+
+                android:stretchColumns="1">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="20dp"
+                        android:text="X:"
+                        android:textColor="#000080"
+                        android:textSize="42dp" />
+
+                    <TextView
+                        android:id="@+id/lblXi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mMilling.X}"
+                        android:textColor="#000080"
+                        android:textSize="70dp" />
+
+                    <Button
+                        android:id="@+id/cmdResetX"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{() -> mMilling.SetX0()}"
+                        android:text="Обнулить" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textViewY"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="20dp"
+                        android:text="Y:"
+                        android:textColor="#000080"
+                        android:textSize="42dp" />
+
+                    <TextView
+                        android:id="@+id/lblYi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mMilling.Y}"
+                        android:textColor="#000080"
+                        android:textSize="70dp" />
+
+                    <Button
+                        android:id="@+id/cmdResetY"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{() -> mMilling.SetY0()}"
+                        android:text="Обнулить" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="20dp"
+                        android:text="Z:"
+                        android:textColor="#000080"
+                        android:textSize="42dp" />
+
+                    <TextView
+                        android:id="@+id/lblZi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mMilling.Z}"
+                        android:textColor="#000080"
+                        android:textSize="70dp" />
+
+                    <Button
+                        android:id="@+id/cmdResetZ"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{() -> mMilling.SetZ0()}"
+                        android:text="Обнулить" />
+                </TableRow>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="20dp"
+                        android:text="Поиск центра:"
+                        android:textColor="#000080"
+                        android:textSize="18dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="3dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="22dp"
+                        android:text="X:"
+
+                        android:textColor="#000080"
+                        android:textSize="32dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="3dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="22dp"
+                        android:text="Y:"
+                        android:textColor="#000080"
+                        android:textSize="32dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                    <TextView
+                        android:id="@+id/lblСX"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="3dp"
+                        android:text="@{mMilling.CX}"
+                        android:textColor="#000080"
+                        android:textSize="34sp"
+                        app:layout_constraintStart_toEndOf="@+id/textView4"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                    <TextView
+                        android:id="@+id/lblСY"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mMilling.CY}"
+                        android:textColor="#000080"
+                        android:textSize="34sp"
+                        app:layout_constraintStart_toEndOf="@+id/textView5"
+                        app:layout_constraintTop_toBottomOf="@+id/lblСX" />
+
+                    <Button
+                        android:id="@+id/cmdSetX1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{() -> mMilling.SetX1()}"
+                        android:text="@{mMilling.X1Setted()? &quot;[X1]&quot; : &quot;X1&quot;}"
+                        app:layout_constraintEnd_toStartOf="@+id/cmdSetY2"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                    <Button
+                        android:id="@+id/cmdSetY1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{() -> mMilling.SetY1()}"
+                        android:text="@{mMilling.Y1Setted()? &quot;[Y1]&quot; : &quot;Y1&quot;}"
+                        app:layout_constraintEnd_toStartOf="@+id/cmdSetX2"
+                        app:layout_constraintTop_toBottomOf="@+id/cmdSetX1" />
+
+                    <Button
+                        android:id="@+id/cmdSetX2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{() -> mMilling.SetX2()}"
+                        android:text="@{mMilling.X2Setted()? &quot;[X2]&quot; : &quot;X2&quot;}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                    <Button
+                        android:id="@+id/cmdSetY2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{() -> mMilling.SetY2()}"
+                        android:text="@{mMilling.Y2Setted()? &quot;[Y2]&quot; : &quot;Y2&quot;}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cmdSetX1" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </TableLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>
