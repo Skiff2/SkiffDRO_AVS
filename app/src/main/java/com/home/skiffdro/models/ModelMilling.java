@@ -84,7 +84,7 @@ public class ModelMilling implements Serializable {
     }
 
     //Получение привязанных координат
-    public double getX(){ return ScalesValX-ScalesOffsetX; }
-    public double getY(){ return ScalesValX-ScalesOffsetY; }
-    public double getZ(){ return ScalesValZ-ScalesOffsetZ; }
+    public double getXval(){ return ScalesValX-ScalesOffsetX; }
+    public double getYval(){ return ScalesValX-ScalesOffsetY; }
+    public double getZval(){ return ScalesValZ-ScalesOffsetZ; }
 }

@@ -103,6 +103,6 @@ public class LatheMain extends Fragment implements BTEvent {
     public double getScalesLfixX() { return binding.getMLathe().ScalesLsetZ; }
 
     //Получение привязанных координат
-    public double getX() { return binding.getMLathe().getX();}
-    public double getZ() { return binding.getMLathe().getZ();}
+    public double getX() { return binding.getMLathe().getXval();}
+    public double getZ() { return binding.getMLathe().getZval();}
 }

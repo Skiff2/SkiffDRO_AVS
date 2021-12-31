@@ -60,7 +60,8 @@
                     app:layout_constraintBottom_toBottomOf="@+id/lblD"
                     app:layout_constraintEnd_toStartOf="@+id/cmdResetX"
                     app:layout_constraintStart_toEndOf="@id/lblX"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingLeft="25dp" />
 
                     <TextView
                         android:id="@+id/lblD"

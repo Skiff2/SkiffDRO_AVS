@@ -36,7 +36,7 @@ public class MiniMilling extends Fragment implements BTEvent {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mini_milling, container, false);
         binding.setMMilling(new ModelMilling());
         return binding.getRoot();
@@ -63,7 +63,7 @@ public class MiniMilling extends Fragment implements BTEvent {
     public void setScalesOffsetZ(double val){binding.getMMilling().ScalesOffsetZ = val; }
 
     //Получение привязанных координат
-    public double getX() { return binding.getMMilling().getX();}
-    public double getY() { return binding.getMMilling().getY();}
-    public double getZ() { return binding.getMMilling().getZ();}
+    public double getX() { return binding.getMMilling().getXval();}
+    public double getY() { return binding.getMMilling().getYval();}
+    public double getZ() { return binding.getMMilling().getZval();}
 }

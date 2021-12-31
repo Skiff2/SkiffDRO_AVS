@@ -78,6 +78,6 @@ public class ModelLathe implements Serializable {
     public boolean LSetted() { return (ScalesLsetZ == 0);}
 
     //Получение привязанных координат
-    public double getX(){ return ScalesValX-ScalesOffsetX; }
-    public double getZ(){ return ScalesValZ-ScalesOffsetZ; }
+    public double getXval(){ return ScalesValX-ScalesOffsetX; }
+    public double getZval(){ return ScalesValZ-ScalesOffsetZ; }
 }
