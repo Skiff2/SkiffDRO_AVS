@@ -68,43 +68,48 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
 
         TasksList = (ListView)findViewById(R.id.TasksList);
 
-        TasksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View itemClicked, int position, long id) {
-                TextView textView = (TextView) itemClicked;
-                String strText = textView.getText().toString(); // получаем текст нажатого элемента
+        TasksList.setOnItemClickListener((parent, itemClicked, position, id) -> {
+            TextView textView = (TextView) itemClicked;
+            String strText = textView.getText().toString(); // получаем текст нажатого элемента
 
-                Intent intent = null;
-                switch(strText)
-                {
-                    case "Нарезание резьбы":
-                        intent = new Intent(MainActivity.this, LatheThread.class);
-                        break;
-                    case "Канавки шкивов":
-                        intent = new Intent(MainActivity.this, LathePulley.class);
-                        break;
-                    case "Угломер":
-                        intent = new Intent(MainActivity.this, LatheAngleMeter.class);
-                        break;
-                    case "Шарик":
+            Intent intent = null;
+            switch(strText)
+            {
+                case "Нарезание резьбы":
+                    intent = new Intent(MainActivity.this, LatheThread.class);
+                    break;
+                case "Канавки шкивов":
+                    intent = new Intent(MainActivity.this, LathePulley.class);
+                    break;
+                case "Угломер":
+                    intent = new Intent(MainActivity.this, LatheAngleMeter.class);
+                    break;
+                case "Шарик":
+                    LatheMain LatFragment = (LatheMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain);
+                    if (LatFragment.DSetted())
+                    {
                         intent = new Intent(MainActivity.this, LatheBoll.class);
-                        break;
-                    case "Сверление по окружности":
-                        MillingMain fragment = (MillingMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain);
-                        if (fragment.CenterXFound() && fragment.CenterYFound())
-                        {
-                            intent = new Intent(MainActivity.this, MillingRoundDrill.class);
-                            intent.putExtra("CenterX", fragment.CenterX());
-                            intent.putExtra("CenterY", fragment.CenterY());
-                        }
-                        else
-                            Toast.makeText(MainActivity.this, "Не найден центр!", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + strText);
-                }
-                if (intent != null)startActivity(intent);
+                        intent.putExtra("ScalesDfixX", LatFragment.getScalesDfixX());
+                        intent.putExtra("ScalesDsetX", LatFragment.getScalesDsetX());
+                    }
+                    else
+                        Toast.makeText(MainActivity.this, "Не привязан диаметр!", Toast.LENGTH_SHORT).show();
+                    break;
+                case "Сверление по окружности":
+                    MillingMain MillFragment = (MillingMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain);
+                    if (MillFragment.CenterXFound() && MillFragment.CenterYFound())
+                    {
+                        intent = new Intent(MainActivity.this, MillingRoundDrill.class);
+                        intent.putExtra("CenterX", MillFragment.CenterX());
+                        intent.putExtra("CenterY", MillFragment.CenterY());
+                    }
+                    else
+                        Toast.makeText(MainActivity.this, "Не найден центр!", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + strText);
             }
+            if (intent != null)startActivity(intent);
         });
     }
 
@@ -124,21 +129,18 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
 
     @Override
     public void RefreshBTData() {
-        runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (con.getIsConnected())
-                        setTitle("Подключено: " + con.getDeviceType() + " " + DeviceName);
-                    else
-                        setTitle("Подключение к " + DeviceName);
+        runOnUiThread(() -> {
+            if (con.getIsConnected())
+                setTitle("Подключено: " + con.getDeviceType() + " " + DeviceName);
+            else
+                setTitle("Подключение к " + DeviceName);
 
-                    if (TasksList.getAdapter() == null)
-                    {
-                        if (con.getDeviceType().equals("Токарный")) PrepareAsLathe();
-                        if (con.getDeviceType().equals("Фрезерный")) PrepareAsMilling();
-                    }
+            if (TasksList.getAdapter() == null)
+            {
+                if (con.getDeviceType().equals("Токарный")) PrepareAsLathe();
+                if (con.getDeviceType().equals("Фрезерный")) PrepareAsMilling();
             }
-        });
+    });
     }
 
     private  void PrepareAsLathe()
@@ -190,30 +192,24 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
         builderSingle.setTitle("Выберите устройство:");
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.select_dialog_singlechoice);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.select_dialog_singlechoice);
         Set<BluetoothDevice> pairedDevices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
         for (BluetoothDevice device : pairedDevices) { // Добавляем сопряжённые устройства - Имя + MAC-адресс
             arrayAdapter.add(device.getName() + "\n" + device.getAddress());
         }
 
-        builderSingle.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                finish();
-            }
+        builderSingle.setNegativeButton("Отмена", (dialog, which) -> {
+            dialog.dismiss();
+            finish();
         });
 
-        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String strName = arrayAdapter.getItem(which);
-                DeviceName = strName.substring(0,strName.length() - 18);
-                Toast.makeText(MainActivity.this, "Подключаюсь к " + DeviceName, Toast.LENGTH_SHORT).show();
-                DeviceMAC = strName.substring(strName.length() - 17); // Вычленяем MAC-адрес
-                con = BT.getInstance(DeviceMAC); // new BT();
-                con.addListener(MainActivity.this);
-            }
+        builderSingle.setAdapter(arrayAdapter, (dialog, which) -> {
+            String strName = arrayAdapter.getItem(which);
+            DeviceName = strName.substring(0,strName.length() - 18);
+            Toast.makeText(MainActivity.this, "Подключаюсь к " + DeviceName, Toast.LENGTH_SHORT).show();
+            DeviceMAC = strName.substring(strName.length() - 17); // Вычленяем MAC-адрес
+            con = BT.getInstance(DeviceMAC); // new BT();
+            con.addListener(MainActivity.this);
         });
         builderSingle.show();
     }

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
 
-    ArrayList<ItemModel> states = new ArrayList<ItemModel>();
+    ArrayList<ItemModel> states = new ArrayList<>();
     RecyclerView recyclerView;
 
     double CenterX = 0;
@@ -50,9 +50,11 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
         display.HideResetX();
         display.HideResetY();
 
-        if(arguments!=null){
+        if(arguments!=null){ //Позиционируемя относительно центра
             CenterX = arguments.getDouble("CenterX");
             CenterY = arguments.getDouble("CenterY");
+            display.setScalesOffsetX(CenterX);
+            display.setScalesOffsetY(CenterY);
         }
         new InputDialog("Радиус сверления", 0, new InputDialog.DialogEvent() {
             @Override
@@ -100,7 +102,7 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
         for (int i = 1; i <= Holes; i++) {
             double x = Math.round(Radius * Math.sin(step * i));
             double y = Radius * Math.cos(step * i);
-            states.add(new ItemModel(i, "W", x, y));
+            states.add(new ItemModel(i, "Y", x, y));
         }
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -136,10 +138,6 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
                 .setTitle("Выйти?")
                 .setMessage("Вы действительно хотите выйти?")
                 .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        MillingRoundDrill.super.onBackPressed();
-                    }
-                }).create().show();
+                .setPositiveButton(android.R.string.yes, (arg0, arg1) -> MillingRoundDrill.super.onBackPressed()).create().show();
     }
 }

@@ -8,13 +8,13 @@ public class ModelMilling implements Serializable {
     public String CX, CY, X, Y, Z; //Отображаемое
     public boolean ShowResetX = true, ShowResetY = true;
 
-    double ScalesOffsetX = 0; //Значение локального обнуления
+    public double ScalesOffsetX = 0; //Значение локального обнуления
     double ScalesValX = 0; //текущее АБСОЛЮТНОЕ значение линейки
 
-    double ScalesOffsetY = 0; //Значение локального обнуления
+    public double ScalesOffsetY = 0; //Значение локального обнуления
     double ScalesValY = 0; //текущее АБСОЛЮТНОЕ значение линейки
 
-    double ScalesOffsetZ = 0; //Значение локального обнуления
+    public double ScalesOffsetZ = 0; //Значение локального обнуления
     double ScalesValZ = 0; //текущее АБСОЛЮТНОЕ значение линейки
 
     public double CenterX; //Координатата центра по Х

@@ -53,6 +53,12 @@ public class MiniMilling extends Fragment implements BTEvent {
         binding.invalidateAll();
     }
 
+    //Методы для прятания кнопок
     public void HideResetX(){binding.getMMilling().setShowResetX(false);}
     public void HideResetY(){binding.getMMilling().setShowResetY(false);}
+
+    //Внешняя установка нулей
+    public void setScalesOffsetX(double val){binding.getMMilling().ScalesOffsetX = val; }
+    public void setScalesOffsetY(double val){binding.getMMilling().ScalesOffsetY = val; }
+    public void setScalesOffsetZ(double val){binding.getMMilling().ScalesOffsetZ = val; }
 }
