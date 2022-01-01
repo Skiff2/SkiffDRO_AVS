@@ -23,16 +23,16 @@ public class BT {
     public String getBTStatus() {return BTStatus;}
 
     private boolean isConnected;
-    public boolean getIsConnected() {return isConnected; };
+    public boolean getIsConnected() {return isConnected; }
 
     private float valX;
     private float valY;
     private float valZ;
     private String DeviceType = "?";
-    public float getValX() {return valX; };
-    public float getValY() {return valY; };
-    public float getValZ() {return valZ; };
-    public String getDeviceType() { return DeviceType; };
+    public float getValX() {return valX; }
+    public float getValY() {return valY; }
+    public float getValZ() {return valZ; }
+    public String getDeviceType() { return DeviceType; }
 
     public String Delim = null;
 
@@ -41,10 +41,11 @@ public class BT {
 
     private Timer timerReconnect;
 
-    private List<BTEvent> listeners = new ArrayList<BTEvent>();
+    private List<BTEvent> listeners = new ArrayList<>();
 
     private static BT instance;
 
+    //Коннектимся к указанному устройству
     public static synchronized BT getInstance(String MAC) {
         if (instance == null) {
             instance = new BT();
@@ -53,6 +54,7 @@ public class BT {
             instance.Connect(MAC);
         return instance;
     }
+    //Получаем или инитим пустой инстанс
     public static synchronized BT getInstance() {
         if (instance == null) {
             instance = new BT();
@@ -102,17 +104,19 @@ public class BT {
         timerReconnect.scheduleAtFixedRate(timerTaskScales, 1000, 3000);
     }
 
+    //Накручиваем подписоту =)
     public void addListener(BTEvent toAdd) {
         listeners.add(toAdd);
     }
 
+    //Раскидывем данные заинтересованным
     public void RefreshListeners() {
         for (BTEvent hl : listeners) {
             try {
                 hl.RefreshBTData();
             }
             catch(Exception ex) {
-                listeners.remove(hl);
+                listeners.remove(hl);  //Скажем "Нет" некромантии!!
                 return;
             }
         }
@@ -131,7 +135,7 @@ public class BT {
 
             try {
                 Method m = device.getClass().getMethod("createRfcommSocket", new Class[]{int.class});
-                bluetoothSocket = (BluetoothSocket) m.invoke(device, Integer.valueOf(1));
+                bluetoothSocket = (BluetoothSocket) m.invoke(device, 1);
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -225,14 +229,14 @@ public class BT {
                             if (sbprint.indexOf('|') > -1) { Delim = "\\|"; DeviceType = "Токарный"; }
                             if (sbprint.indexOf('*') > -1) { Delim = "\\*"; DeviceType = "Фрезерный"; }
                         }
-                        if (DeviceType == "Токарный") {
-                            String ret[] = sbprint.split(Delim);
+                        if (DeviceType.equals("Токарный")) {
+                            String[] ret = sbprint.split(Delim);
                             valX = Float.parseFloat(ret[0]) / 100;
                             valY = Float.parseFloat(ret[1]) / 200;
                             RefreshListeners();
                         }
-                        if (DeviceType == "Фрезерный") {
-                            String ret[] = sbprint.split(Delim);
+                        if (DeviceType.equals("Фрезерный")) {
+                            String[] ret = sbprint.split(Delim);
                             valX = Float.parseFloat(ret[0]) / 200;
                             valY = Float.parseFloat(ret[1]) / 200;
                             valZ = Float.parseFloat(ret[2]) / 200;

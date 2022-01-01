@@ -21,6 +21,7 @@ import com.home.skiffdro.common.BT;
 import com.home.skiffdro.common.BTEvent;
 import com.home.skiffdro.R;
 import com.home.skiffdro.common.Utils;
+import com.home.skiffdro.milling.MillingRoundDrill;
 
 import java.util.ArrayList;
 
@@ -221,5 +222,14 @@ public class LathePulley extends AppCompatActivity implements BTEvent {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Выйти?")
+                .setMessage("Вы действительно хотите выйти?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, (arg0, arg1) -> LathePulley.super.onBackPressed()).create().show();
     }
 }

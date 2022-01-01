@@ -10,18 +10,22 @@
         android:id="@+id/tv_NN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="N)"
-        android:textSize="32dp"
+        android:text="NN)"
+        android:textSize="22dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_X"
+        android:id="@+id/tv_A"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="13dp"
-        android:text="X:"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="A:"
         android:textSize="26dp"
+        android:textStyle="bold"
+        android:textColor="#FF3E80F1"
         app:layout_constraintBottom_toBottomOf="@+id/tv_NN"
         app:layout_constraintStart_toEndOf="@+id/tv_NN"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,14 +38,17 @@
         app:layout_constraintGuide_percent="0.45" />
 
     <TextView
-        android:id="@+id/tv_S"
+        android:id="@+id/tv_B"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="13dp"
-        android:text="S:"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="B:"
         android:textSize="26dp"
+        android:textStyle="bold"
+        android:textColor="#FF3E80F1"
         app:layout_constraintBottom_toBottomOf="@+id/tv_NN"
-
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,7 +56,7 @@
         android:id="@+id/ch_Check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:checked="false"
         android:paddingBottom="-12dp"
         android:text=""

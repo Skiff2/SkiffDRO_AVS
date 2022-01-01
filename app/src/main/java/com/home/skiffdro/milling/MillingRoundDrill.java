@@ -16,6 +16,7 @@ import com.home.skiffdro.common.BTEvent;
 import com.home.skiffdro.common.CenterSmoothScroller;
 import com.home.skiffdro.common.InputDialog;
 import com.home.skiffdro.common.ItemAdapter;
+import com.home.skiffdro.common.Utils;
 import com.home.skiffdro.fragments.MillingMain;
 import com.home.skiffdro.fragments.MiniMilling;
 import com.home.skiffdro.R;
@@ -31,6 +32,7 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
 
     double CenterX = 0;
     double CenterY = 0;
+    double PrevZ = 0;
 
     double Radius; int Holes;
     BT con = null;
@@ -99,14 +101,18 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
     }
 
     private void setInitialData(){
-        double step = ((360 / Holes)* Math.PI) / 180 ;
-        for (int i = 1; i <= Holes; i++) {
-            double x = Math.round(Radius * Math.sin(step * i));
-            double y = Radius * Math.cos(step * i);
-            states.add(new ItemModel(i, "Y", x, y));
+        try {
+            double step = ((360 / Holes) * Math.PI) / 180;
+            for (int i = 1; i <= Holes; i++) {
+                double x = Math.round(Radius * Math.sin(step * i));
+                double y = Radius * Math.cos(step * i);
+                states.add(new ItemModel(i, "X", "Y", x, y));
+            }
         }
+        catch (Exception ex){} //Ввели хрень - получили хрень.
 
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
         ItemAdapter adapter = new ItemAdapter(this, states);
         RecyclerView.SmoothScroller smoothScroller = new CenterSmoothScroller(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
@@ -118,18 +124,18 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
         try {
             for (int i = 0; i < states.size(); i++) {
                 ItemModel m = states.get(i);
-                if (Math.abs(m.getX() - display.getX()) < 0.05 && Math.abs(m.getS() - display.getY()) < 0.05) {
+                if (Math.abs(m.getA() - display.getX()) < 0.05 && Math.abs(m.getB() - display.getY()) < 0.05) {
                     m.setFoud(true);
-                    m.setCheck(true);
 
-                    RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
-                    RecyclerView.SmoothScroller smoothScroller = new CenterSmoothScroller(recyclerView.getContext());
-                    smoothScroller.setTargetPosition(i);
-                    lm.startSmoothScroll(smoothScroller);
+                    if (Math.abs(PrevZ = display.getZ()) > 0.02)
+                        m.setCheck(true);
+
+                    Utils.SetRWPosition(recyclerView, i);
                 } else
                     m.setFoud(false);
             }
             recyclerView.getAdapter().notifyDataSetChanged();
+            PrevZ = display.getZ();
         }
         catch(Exception ex)
         {}

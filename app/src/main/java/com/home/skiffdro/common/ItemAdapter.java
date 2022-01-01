@@ -51,18 +51,13 @@ public class ItemAdapter  extends RecyclerView.Adapter<ItemAdapter.ViewHolder>{
         }
 
         //if (i.getNN() % 2 == 0) holder.Row.setBackgroundColor(R.color.first); else holder.Row.setBackgroundColor(R.color.second);
-        holder.tv_X.setText("X: "+ formatDouble(i.getX()));
-        holder.tv_S.setText(i.getNameS() + ": " + formatDouble(i.getS()));
-        holder.tv_NN.setText(String.valueOf(i.getNN()) + ")");
+        holder.tv_A.setText(i.getNameA() + ": "+ formatDouble(i.getA()));
+        holder.tv_B.setText(i.getNameB() + ": " + formatDouble(i.getB()));
+        holder.tv_NN.setText(i.getNN() + ")");
         holder.ch_Check.setChecked(i.getCheck());
         holder.ch_Check.setScaleX(1.5f);
         holder.ch_Check.setScaleY(1.5f);
-        holder.ch_Check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                i.setCheck(!i.getCheck());
-            }
-        });
+        holder.ch_Check.setOnClickListener(view -> i.setCheck(!i.getCheck()));
     }
 
     @Override
@@ -71,14 +66,14 @@ public class ItemAdapter  extends RecyclerView.Adapter<ItemAdapter.ViewHolder>{
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView tv_X, tv_S, tv_NN;
+        final TextView tv_A, tv_B, tv_NN;
         final CheckBox ch_Check;
         final ConstraintLayout Row;
 
         ViewHolder(View view){
             super(view);
-            tv_X = view.findViewById(R.id.tv_X);
-            tv_S = view.findViewById(R.id.tv_S);
+            tv_A = view.findViewById(R.id.tv_B);
+            tv_B = view.findViewById(R.id.tv_A);
             tv_NN = view.findViewById(R.id.tv_NN);
             ch_Check = view.findViewById(R.id.ch_Check);
             Row =  view.findViewById(R.id.cl_row);

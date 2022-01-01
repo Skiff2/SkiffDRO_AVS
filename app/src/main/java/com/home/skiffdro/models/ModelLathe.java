@@ -56,17 +56,17 @@ public class ModelLathe implements Serializable {
         this.ScalesDfixX = ScasesDfixX;
     }
 
-    //Устаовка длины от ТЕКУЩЕЙ позиции
-    public void setL(double ScalesDsetY)
+    //Установка длины от ТЕКУЩЕЙ позиции
+    public void setL(double ScalesDsetZ)
     {
-        this.ScalesLsetZ = ScalesDsetY;
+        this.ScalesLsetZ = ScalesDsetZ;
         ScasesLfixZ = ScalesValZ;
     }
     //Установка длины с оффсетом позиции
-    public void setL(double ScalesDsetY, double ScasesDfixY)
+    public void setL(double ScalesLsetZ, double ScasesLfixZ)
     {
-        this.ScalesLsetZ = ScalesDsetY;
-        this.ScasesLfixZ = ScasesDfixY;
+        this.ScalesLsetZ = ScalesLsetZ;
+        this.ScasesLfixZ = ScasesLfixZ;
     }
 
     //Обнуление относительных координат
@@ -74,10 +74,12 @@ public class ModelLathe implements Serializable {
     public void SetZ0(){ScalesOffsetZ = ScalesValZ;}
 
     //Установлены ли абсолютные значения диаметра и длины
-    public boolean DSetted() { return (ScalesDsetX == 0);}
-    public boolean LSetted() { return (ScalesLsetZ == 0);}
+    public boolean DSetted() { return (ScalesDsetX != 0);}
+    public boolean LSetted() { return (ScalesLsetZ != 0);}
 
     //Получение привязанных координат
     public double getXval(){ return ScalesValX-ScalesOffsetX; }
+    public double getDval(){ return ScalesDsetX - (ScalesDfixX - ScalesValX)*-1; }
     public double getZval(){ return ScalesValZ-ScalesOffsetZ; }
+    public double getLval(){ return ScalesLsetZ - (ScasesLfixZ - ScalesValZ)*-1; }
 }
