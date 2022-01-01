@@ -41,9 +41,10 @@
 
                 <TextView
                     android:id="@+id/lblX"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{mMilling.X}"
+                    android:paddingLeft="45dp"
+                    android:text="@{mMilling.strX.toString()}"
                     android:textColor="#000080"
                     android:textSize="50dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -84,13 +85,14 @@
 
                 <TextView
                     android:id="@+id/lblY"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{mMilling.Y}"
+                    android:paddingLeft="45dp"
+                    android:text="@{mMilling.strY.toString()}"
                     android:textColor="#000080"
                     android:textSize="50dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/textViewY"
+                    app:layout_constraintStart_toEndOf="@+id/textViewY"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
@@ -126,9 +128,10 @@
 
                 <TextView
                     android:id="@+id/lblZ"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{mMilling.Z}"
+                    android:paddingLeft="45dp"
+                    android:text="@{mMilling.strZ}"
                     android:textColor="#000080"
                     android:textSize="50dp"
                     app:layout_constraintBottom_toBottomOf="parent"

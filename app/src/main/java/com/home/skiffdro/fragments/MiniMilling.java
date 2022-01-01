@@ -33,6 +33,16 @@ public class MiniMilling extends Fragment implements BTEvent {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         con = BT.getInstance();
         con.addListener(MiniMilling.this);
+
+        ModelMilling m = binding.getMMilling();
+
+        m.setScalesValX(con.getValX());
+        m.setScalesValY(con.getValY());
+        m.setScalesValZ(con.getValZ());
+
+        m.SetX0();
+        m.SetY0();
+        m.SetZ0();
     }
 
     @Override

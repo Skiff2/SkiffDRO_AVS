@@ -5,7 +5,7 @@ import com.home.skiffdro.common.Utils;
 import java.io.Serializable;
 
 public class ModelMilling implements Serializable {
-    public String CX, CY, X, Y, Z; //Отображаемое
+    public String strCX, strCY, strX, strY, strZ; //Отображаемое
     public boolean ShowResetX = true, ShowResetY = true;
 
     public double ScalesOffsetX = 0; //Значение локального обнуления
@@ -26,35 +26,35 @@ public class ModelMilling implements Serializable {
     //Установка значения линейки по X
     public void setScalesValX(double val){
         ScalesValX = val;
-        X = Utils.ValToPrint(ScalesValX-ScalesOffsetX);
+        strX = Utils.ValToPrint(ScalesValX-ScalesOffsetX);
 
         if (X1Setted() && X2Setted()) {
             double x1 = Math.min(X1, X2), x2 = Math.max(X1, X2);
-            CenterX = (x2-x1)/2;
-            CX = Utils.ValToPrint((ScalesValX - (x1 + CenterX)));
+            CenterX = x1 + ((x2-x1)/2);
+            strCX = Utils.ValToPrint((ScalesValX - CenterX));
         }
         else
-            CX = "---";
+            strCX = "---";
     }
     //Установка значения линейки по Y
     public void setScalesValY(double val){
         ScalesValY = val;
-        Y = Utils.ValToPrint(ScalesValY-ScalesOffsetY);
+        strY = Utils.ValToPrint(ScalesValY-ScalesOffsetY);
 
         if (Y1Setted() && Y2Setted()) {
             double y1 = Math.min(Y1, Y2), y2 = Math.max(Y1, Y2);
-            CenterY = (y2-y1)/2;
-            CY = Utils.ValToPrint((ScalesValY - (y1 + CenterY)));
+            CenterY = y1 + ((y2-y1)/2);
+            strCY = Utils.ValToPrint((ScalesValY - CenterY));
         }
         else
-            CY = "---";
+            strCY = "---";
 
     }
 
     //Установка значения линейки по Z
     public void setScalesValZ(double val){
         ScalesValZ = val;
-        Z = Utils.ValToPrint(ScalesValZ-ScalesOffsetZ);
+        strZ = Utils.ValToPrint(ScalesValZ-ScalesOffsetZ);
     }
 ///////////////////////////////////////////////////
 
@@ -85,6 +85,6 @@ public class ModelMilling implements Serializable {
 
     //Получение привязанных координат
     public double getXval(){ return ScalesValX-ScalesOffsetX; }
-    public double getYval(){ return ScalesValX-ScalesOffsetY; }
+    public double getYval(){ return ScalesValY-ScalesOffsetY; }
     public double getZval(){ return ScalesValZ-ScalesOffsetZ; }
 }

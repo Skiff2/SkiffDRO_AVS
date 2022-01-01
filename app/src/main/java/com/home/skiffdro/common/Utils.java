@@ -2,10 +2,13 @@ package com.home.skiffdro.common;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
+
 public final class Utils {
     public static String ValToPrint(double val) {
         if (val == 0) val = 0; //Ээээ... надо ))) Ну типа, избавление от -0 =)
-        return String.format("%.2f", val);
+        //return String.format("%.2f", val);
+        return new DecimalFormat("####0.00").format(val);
     }
 
     public static void SetRWPosition(RecyclerView recyclerView, int Row)

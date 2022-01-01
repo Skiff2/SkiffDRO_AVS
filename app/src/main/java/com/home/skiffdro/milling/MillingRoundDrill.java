@@ -127,12 +127,13 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
                 if (Math.abs(m.getA() - display.getX()) < 0.05 && Math.abs(m.getB() - display.getY()) < 0.05) {
                     m.setFoud(true);
 
-                    if (Math.abs(PrevZ = display.getZ()) > 0.02)
+                    if (Math.abs(PrevZ - display.getZ()) > 0.05)
                         m.setCheck(true);
 
                     Utils.SetRWPosition(recyclerView, i);
                 } else
                     m.setFoud(false);
+                recyclerView.getAdapter().notifyItemChanged(i);
             }
             recyclerView.getAdapter().notifyDataSetChanged();
             PrevZ = display.getZ();

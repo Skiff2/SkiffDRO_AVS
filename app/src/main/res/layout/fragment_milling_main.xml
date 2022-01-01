@@ -43,7 +43,7 @@
                         android:id="@+id/lblXi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{mMilling.X}"
+                        android:text="@{mMilling.strX}"
                         android:textColor="#000080"
                         android:textSize="70dp" />
 
@@ -74,7 +74,7 @@
                         android:id="@+id/lblYi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{mMilling.Y}"
+                        android:text="@{mMilling.strY}"
                         android:textColor="#000080"
                         android:textSize="70dp" />
 
@@ -105,7 +105,7 @@
                         android:id="@+id/lblZi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{mMilling.Z}"
+                        android:text="@{mMilling.strZ}"
                         android:textColor="#000080"
                         android:textSize="70dp" />
 
@@ -166,7 +166,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="3dp"
-                        android:text="@{mMilling.CX}"
+                        android:text="@{mMilling.strCX}"
                         android:textColor="#000080"
                         android:textSize="34sp"
                         app:layout_constraintStart_toEndOf="@+id/textView4"
@@ -176,7 +176,7 @@
                         android:id="@+id/lblСY"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{mMilling.CY}"
+                        android:text="@{mMilling.strCY}"
                         android:textColor="#000080"
                         android:textSize="34sp"
                         app:layout_constraintStart_toEndOf="@+id/textView5"

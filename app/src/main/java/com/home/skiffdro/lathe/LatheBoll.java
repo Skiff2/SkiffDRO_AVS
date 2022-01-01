@@ -103,6 +103,7 @@ public class LatheBoll extends AppCompatActivity implements BTEvent, TextWatcher
                     if (Math.abs(m.getB() - display.getD()) <= 0.05 && Math.abs(m.getB() - display.getZ()) <= 0.05) {
                         m.setCheck(true);
                     }
+                    recyclerView.getAdapter().notifyItemChanged(i);
                 }
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
