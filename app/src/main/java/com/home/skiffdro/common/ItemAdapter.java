@@ -52,7 +52,10 @@ public class ItemAdapter  extends RecyclerView.Adapter<ItemAdapter.ViewHolder>{
 
         //if (i.getNN() % 2 == 0) holder.Row.setBackgroundColor(R.color.first); else holder.Row.setBackgroundColor(R.color.second);
         holder.tv_A.setText(i.getNameA() + ": "+ Utils.ValToPrint(i.getA()));
-        holder.tv_B.setText(i.getNameB() + ": " + Utils.ValToPrint(i.getB()));
+        if (i.getNameB().length() == 0) //Если Б не указано - то и нафиг с пляжа
+            holder.tv_B.setVisibility(View.GONE);
+        else
+            holder.tv_B.setText(i.getNameB() + ": " + Utils.ValToPrint(i.getB()));
         holder.tv_NN.setText(i.getNN() + ")");
         holder.ch_Check.setChecked(i.getCheck());
         holder.ch_Check.setScaleX(1.5f);
@@ -72,8 +75,8 @@ public class ItemAdapter  extends RecyclerView.Adapter<ItemAdapter.ViewHolder>{
 
         ViewHolder(View view){
             super(view);
-            tv_A = view.findViewById(R.id.tv_B);
-            tv_B = view.findViewById(R.id.tv_A);
+            tv_A = view.findViewById(R.id.tv_A);
+            tv_B = view.findViewById(R.id.tv_B);
             tv_NN = view.findViewById(R.id.tv_NN);
             ch_Check = view.findViewById(R.id.ch_Check);
             Row =  view.findViewById(R.id.cl_row);

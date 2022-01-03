@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,72 +11,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TableRow
+        <fragment
+            android:id="@+id/fragmentDisplay"
+            android:name="com.home.skiffdro.fragments.MiniLathe"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="20dp"
-                    android:text="X:"
-                    android:textColor="#000080"
-                    android:textSize="30dp" />
-
-                <TextView
-                    android:id="@+id/lblX"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0,00"
-                    android:textColor="#000080"
-                    android:textSize="50dp" />
-
-
-
-                <Button
-                    android:id="@+id/cmdResetX"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Обнулить" />
-            </LinearLayout>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="20dp"
-                android:text="Z:"
-                android:textColor="#000080"
-                android:textSize="30dp" />
-
-            <TextView
-                android:id="@+id/lblY"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0,00"
-                android:textColor="#000080"
-                android:textSize="50sp" />
-
-            <Button
-                android:id="@+id/cmdResetY"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Обнулить" />
-        </TableRow>
+            android:layout_height="wrap_content"
+            />
 
         <TableRow
             android:layout_width="match_parent"
@@ -136,14 +77,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
-                android:id="@+id/PulleySteps"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="5dp"
-                android:textSize="30sp">
-
-            </ListView>
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </TableRow>
 
     </LinearLayout>

@@ -95,12 +95,12 @@ public class LatheMain extends Fragment implements BTEvent {
     //Установленный размер диаметра
     public double getScalesDsetX() { return binding.getMLathe().ScalesDsetX; }
     //АБСОЛЮТНОЕ значение линейки для установленного диаметра
-    public double getScalesDfixX() { return binding.getMLathe().ScalesDsetX; }
+    public double getScalesDfixX() { return binding.getMLathe().ScalesDfixX; }
 
     //Установленный размер длины
-    public double getScalesLsetX() { return binding.getMLathe().ScalesLsetZ; }
+    public double getScalesLsetZ() { return binding.getMLathe().ScalesLsetZ; }
     //АБСОЛЮТНОЕ значение линейки для установленной длины
-    public double getScalesLfixX() { return binding.getMLathe().ScalesLsetZ; }
+    public double getScalesLfixZ() { return binding.getMLathe().ScalesLfixZ; }
 
     //Получение привязанных данных
     public double getX() { return binding.getMLathe().getXval();}

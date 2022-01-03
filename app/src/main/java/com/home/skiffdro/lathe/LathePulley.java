@@ -1,6 +1,7 @@
 package com.home.skiffdro.lathe;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -20,8 +21,12 @@ import android.widget.TextView;
 import com.home.skiffdro.common.BT;
 import com.home.skiffdro.common.BTEvent;
 import com.home.skiffdro.R;
+import com.home.skiffdro.common.CenterSmoothScroller;
+import com.home.skiffdro.common.ItemAdapter;
 import com.home.skiffdro.common.Utils;
+import com.home.skiffdro.fragments.MiniLathe;
 import com.home.skiffdro.milling.MillingRoundDrill;
+import com.home.skiffdro.models.ItemModel;
 
 import java.util.ArrayList;
 
@@ -34,19 +39,16 @@ public class LathePulley extends AppCompatActivity implements BTEvent {
         public float Alpha;
     }
 
+    ArrayList<ItemModel> states = new ArrayList<>();
+    RecyclerView recyclerView;
+    MiniLathe display;
+
     BT con = null;
     ArrayList<Profile> Profiles = new ArrayList<>();
     Profile SelProfile;
     int CntLines;
 
-    double ScalesValX = 0; //текущее АБСОЛЮТНОЕ значение линейки
-    double ScalesOffsetX = 0; //Значение локального обнуления
-    double ScalesValY = 0; //текущее АБСОЛЮТНОЕ значение линейки
-    double ScalesOffsetY = 0; //Значение локального обнуления
-
-    TextView lblX, lblY, txtPulleyName, txtPulleyDeep;
-    Button cmdResetX,  cmdResetY;
-    ListView PulleySteps;
+    TextView txtPulleyName, txtPulleyDeep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,31 +60,19 @@ public class LathePulley extends AppCompatActivity implements BTEvent {
         con = BT.getInstance();
         con.addListener(LathePulley.this);
 
+        recyclerView = findViewById(R.id.recyclerView);
         txtPulleyName = (TextView) findViewById(R.id.txtPulleyName);
         txtPulleyDeep = (TextView) findViewById(R.id.txtPulleyDeep);
-        lblX = (TextView) findViewById(R.id.lblX);
-        lblY = (TextView) findViewById(R.id.lblY);
-        cmdResetX = (Button) findViewById(R.id.cmdResetX);
-        cmdResetY = (Button) findViewById(R.id.cmdResetY);
-        PulleySteps = (ListView) findViewById(R.id.PulleySteps);
+
+        Bundle arguments = getIntent().getExtras();
+        display = (MiniLathe) getSupportFragmentManager().findFragmentById(R.id.fragmentDisplay);
+
+        if(arguments!=null){ //Передача диаметра
+            display.setD(arguments.getDouble("ScalesDsetX"), arguments.getDouble("ScalesDfixX"));
+        }
 
         LoadProfiles();
         SelProfile();
-
-        ResetVals();
-
-        cmdResetX.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ScalesOffsetX = ScalesValX;
-                for (int i = 0; i < PulleySteps.getCount(); i++)
-                    PulleySteps.setItemChecked(i, false);
-            }
-        });
-        cmdResetY.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ScalesOffsetY = ScalesValY;
-            }
-        });
     }
 
     private void LoadProfiles()
@@ -162,66 +152,47 @@ public class LathePulley extends AppCompatActivity implements BTEvent {
                 txtPulleyName.setText(strName + SelProfile.Name);
                 txtPulleyDeep.setText("Угол резца: " + SelProfile.Alpha+ "\r\nГлубина реза: " + Utils.ValToPrint(SelProfile.Deep));
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(LathePulley.this, android.R.layout.simple_list_item_multiple_choice)
-                {
-                    public View getView(int position, View convertView, ViewGroup parent){
-                        TextView item = (TextView) super.getView(position,convertView,parent);
-                        item.setTextColor(Color.parseColor("#FF3E80F1"));
-                        item.setTypeface(item.getTypeface(), Typeface.BOLD);
-                        item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,26);
-                        return item;
-                    }
-                };
-                int bTotal = 0;
-                float val = 0;
-                for (int i = 0; i < CntLines; i++) {
-                    adapter.add((i+1) + ") " + String.format("%.2f", val));
-                    val += SelProfile.Step;
-                }
-                PulleySteps.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                PulleySteps.setAdapter(adapter);
-
-                ResetVals();
+                FillList();
             }
         });
         builderSingle.show();
     }
 
-    private void ResetVals()
+    private void FillList()
     {
-        ScalesOffsetX = ScalesValX; //Сброс Х
-        ScalesOffsetY = ScalesValY; //Сброс Y
+        float val = 0;
+        for (int i = 0; i < CntLines; i++) {
+            states.add(new ItemModel(i+1,"Z" ,"", val, 0));
+            val += SelProfile.Step;
+        }
+
+        ItemAdapter adapter = new ItemAdapter(this, states);
+        RecyclerView.SmoothScroller smoothScroller = new CenterSmoothScroller(recyclerView.getContext());
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void RefreshBTData() {
-        ScalesValX = con.getValX();
-        ScalesValY = con.getValY();
+        try {
+            for (int i = 0; i < states.size(); i++) {
+                ItemModel m = states.get(i);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                for (int i = 0; i < PulleySteps.getCount(); i++) {
-                    TextView vv = (TextView) PulleySteps.getAdapter().getView(i, null, null);
-                    String s = vv.getText().toString();
-                    s = s.substring(s.indexOf(" ") + 1).replace(",", ".");
-                    if ((ScalesValX - ScalesOffsetX) >= (SelProfile.Deep-0.02)
-                        && Math.abs(Double.parseDouble(s) - (ScalesValY - ScalesOffsetY)) < 0.06) {
-                        PulleySteps.setItemChecked(i, true);
-                    }
-
-                    if (Math.abs(Double.parseDouble(s) - (ScalesValY - ScalesOffsetY)) < 0.06)
-                        PulleySteps.getChildAt(i).setBackgroundColor(Color.YELLOW);
-                    else
-                        PulleySteps.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                if (display.getX() >= (SelProfile.Deep - 0.02) && Math.abs(m.getA() - display.getZ()) < 0.06) {
+                    m.setCheck(true);
                 }
 
-                lblX.setText(Utils.ValToPrint(Math.abs(ScalesValX - ScalesOffsetX)));
-                lblY.setText(Utils.ValToPrint((ScalesValY - ScalesOffsetY)));
-            }
-        });
+                if (Math.abs(display.getZ() - m.getA()) < 0.06) {
+                    m.setFoud(true);
+                    Utils.SetRWPosition(recyclerView, i);
+                }
+                else
+                    m.setFoud(false);
 
+                recyclerView.getAdapter().notifyItemChanged(i);
+            }
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+        catch (Exception ex){}
     }
 
     @Override

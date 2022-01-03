@@ -81,17 +81,23 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
                     break;
                 case "Канавки шкивов":
                     intent = new Intent(MainActivity.this, LathePulley.class);
+                    LatheMain LatFragmentP = (LatheMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain);
+                    if (LatFragmentP.DSetted())
+                    {
+                        intent.putExtra("ScalesDfixX", LatFragmentP.getScalesDfixX());
+                        intent.putExtra("ScalesDsetX", LatFragmentP.getScalesDsetX());
+                    }
                     break;
                 case "Угломер":
                     intent = new Intent(MainActivity.this, LatheAngleMeter.class);
                     break;
                 case "Шарик":
-                    LatheMain LatFragment = (LatheMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain);
-                    if (LatFragment.DSetted())
+                    LatheMain LatFragmentB = (LatheMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain);
+                    if (LatFragmentB.DSetted())
                     {
                         intent = new Intent(MainActivity.this, LatheBoll.class);
-                        intent.putExtra("ScalesDfixX", LatFragment.getScalesDfixX());
-                        intent.putExtra("ScalesDsetX", LatFragment.getScalesDsetX());
+                        intent.putExtra("ScalesDfixX", LatFragmentB.getScalesDfixX());
+                        intent.putExtra("ScalesDsetX", LatFragmentB.getScalesDsetX());
                     }
                     else
                         Toast.makeText(MainActivity.this, "Не привязан диаметр!", Toast.LENGTH_SHORT).show();

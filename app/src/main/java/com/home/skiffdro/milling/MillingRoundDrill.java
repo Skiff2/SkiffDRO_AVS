@@ -34,7 +34,7 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
     double CenterY = 0;
     double PrevZ = 0;
 
-    double Radius; int Holes;
+    double Radius, StAngle; int Holes;
     BT con = null;
 
     @Override
@@ -79,7 +79,19 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
                 finish();
             }
         }, this);
-
+        new InputDialog("Угол начала сверления", 0, new InputDialog.DialogEvent() {
+            @Override
+            public void DialogOK(String Text) {
+                if (Text.length() == 0)
+                    StAngle = 0;
+                else
+                    StAngle = Double.parseDouble(Text);
+            }
+            @Override
+            public void DialogCancel() {
+                StAngle = 0;
+            }
+        }, this);
         new InputDialog("Количество отверстий", InputType.TYPE_CLASS_NUMBER, new InputDialog.DialogEvent() {
             @Override
             public void DialogOK(String Text) {
@@ -102,10 +114,11 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
 
     private void setInitialData(){
         try {
+            double AddAngl = (StAngle * Math.PI) / 180;
             double step = ((360 / Holes) * Math.PI) / 180;
             for (int i = 1; i <= Holes; i++) {
-                double x = Math.round(Radius * Math.sin(step * i));
-                double y = Radius * Math.cos(step * i);
+                double x = Radius * Math.sin(AddAngl + (step * i));
+                double y = Radius * Math.cos(AddAngl + (step * i));
                 states.add(new ItemModel(i, "X", "Y", x, y));
             }
         }

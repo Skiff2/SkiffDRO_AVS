@@ -11,13 +11,13 @@ public class ItemModel {
     private boolean Check;
     private boolean Foud;
 
-    public ItemModel(int NN, String NameA, String NameB, double X, double S)
+    public ItemModel(int NN, String NameA, String NameB, double A, double B)
     {
         this.NN = NN;
         this.NameA = NameA;
         this.NameB = NameB;
-        this.A = X;
-        this.B = S;
+        this.A = A;
+        this.B = B;
         Check = false;
     }
 

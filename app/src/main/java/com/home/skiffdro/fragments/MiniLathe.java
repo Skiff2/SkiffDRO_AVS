@@ -48,6 +48,9 @@ public class MiniLathe extends Fragment  implements BTEvent {
         m.setScalesValX((double)con.getValX());
         m.setScalesValZ((double)con.getValZ());
 
+        m.SetX0();
+        m.SetZ0();
+
         binding.invalidateAll();
     }
 
