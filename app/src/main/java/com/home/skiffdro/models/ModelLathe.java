@@ -1,6 +1,9 @@
 package com.home.skiffdro.models;
 
+import android.util.TypedValue;
 import android.widget.TextView;
+
+import androidx.databinding.BindingAdapter;
 
 import com.home.skiffdro.R;
 import com.home.skiffdro.common.Utils;
@@ -32,14 +35,14 @@ public class ModelLathe implements Serializable {
     }
 
     //Применение значения линейки по Z
-    public void setScalesValZ(Double ScalesValY) {
-        this.ScalesValZ = ScalesValY;
-        Z = Utils.ValToPrint((ScalesValY-ScalesOffsetZ));
+    public void setScalesValZ(Double ScalesValZ) {
+        this.ScalesValZ = ScalesValZ;
+        Z = Utils.ValToPrint((ScalesValZ-ScalesOffsetZ));
 
         if (ScalesLsetZ == 0)
             L = "---";
         else
-            L = Utils.ValToPrint(ScalesLsetZ - (ScalesLfixZ - ScalesValY)*-1);
+            L = Utils.ValToPrint(ScalesLsetZ - (ScalesLfixZ - ScalesValZ)*-1);
     }
 
     //Установка диаметра от ТЕКУЩЕЙ позиции
@@ -67,6 +70,11 @@ public class ModelLathe implements Serializable {
     {
         this.ScalesLsetZ = ScalesLsetZ;
         this.ScalesLfixZ = ScasesLfixZ;
+    }
+
+    @BindingAdapter("android:textSize")
+    public static void bindTextSize(TextView textView, int size) {
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, size);
     }
 
     //Обнуление относительных координат

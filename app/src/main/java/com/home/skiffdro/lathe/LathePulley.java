@@ -188,7 +188,8 @@ public class LathePulley extends AppCompatActivity implements BTEvent {
                 else
                     m.setFoud(false);
 
-                recyclerView.getAdapter().notifyItemChanged(i);
+                if (i < recyclerView.getAdapter().getItemCount())
+                    recyclerView.getAdapter().notifyItemChanged(i);
             }
             recyclerView.getAdapter().notifyDataSetChanged();
         }

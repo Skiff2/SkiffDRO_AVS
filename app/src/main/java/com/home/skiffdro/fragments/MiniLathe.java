@@ -32,6 +32,13 @@ public class MiniLathe extends Fragment  implements BTEvent {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         con = BT.getInstance();
         con.addListener(MiniLathe.this);
+
+        ModelLathe m = binding.getMMiniLathe();
+        m.setScalesValX((double)con.getValX());
+        m.setScalesValZ((double)con.getValZ());
+
+        m.SetX0();
+        m.SetZ0();
     }
 
     @Override
@@ -44,12 +51,8 @@ public class MiniLathe extends Fragment  implements BTEvent {
     @Override
     public void RefreshBTData() {
         ModelLathe m = binding.getMMiniLathe();
-
         m.setScalesValX((double)con.getValX());
-        m.setScalesValZ((double)con.getValZ());
-
-        m.SetX0();
-        m.SetZ0();
+        m.setScalesValZ((double)con.getValY()); ///эээ...эээ... так надо )))
 
         binding.invalidateAll();
     }
