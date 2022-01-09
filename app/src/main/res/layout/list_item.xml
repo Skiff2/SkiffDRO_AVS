@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/tv_A"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:paddingLeft="13dp"
         android:paddingTop="5dp"
@@ -39,7 +39,7 @@
 
     <TextView
         android:id="@+id/tv_B"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:paddingLeft="13dp"
         android:paddingTop="5dp"

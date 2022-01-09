@@ -6,17 +6,24 @@ import android.widget.TextView;
 import androidx.databinding.BindingAdapter;
 
 import com.home.skiffdro.R;
+import com.home.skiffdro.common.LatheTool;
 import com.home.skiffdro.common.Utils;
 
 import java.io.Serializable;
+import java.sql.Struct;
 
 public class ModelLathe implements Serializable {
+
+    public LatheTool Tools[] = {new LatheTool(), new LatheTool(), new LatheTool(), new LatheTool()};
+    public LatheTool SelTool = Tools[0];
+    public int ToolNum = 1;
+
     public String D, L, X, Z; //Экранные оторбажаемые значения
 
-    double ScalesOffsetX = 0; //Значение локального обнуления
+    //double ScalesOffsetX = 0; //Значение локального обнуления
     double ScalesValX = 0; //текущее АБСОЛЮТНОЕ значение линейки
-    public double ScalesDsetX = 0; //Установленный размер диаметра
-    public double ScalesDfixX = 0; //АБСОЛЮТНОЕ значение линейки для установленного диаметра
+    //public double ScalesDsetX = 0; //Установленный размер диаметра
+    //public double ScalesDfixX = 0; //АБСОЛЮТНОЕ значение линейки для установленного диаметра
 
     double ScalesOffsetZ = 0; //Значение локального обнуления
     double ScalesValZ = 0; //текущее АБСОЛЮТНОЕ значение линейки
@@ -26,12 +33,12 @@ public class ModelLathe implements Serializable {
     //Применение значения линейки по X
     public void setScalesValX(Double ScalesValX) {
         this.ScalesValX = ScalesValX;
-        X = Utils.ValToPrint((ScalesValX-ScalesOffsetX));
+        X = Utils.ValToPrint((ScalesValX-SelTool.ScalesOffsetX));
 
-        if (ScalesDsetX == 0)
+        if (SelTool.ScalesDsetX == 0)
             D = "---";
         else
-            D = Utils.ValToPrint(ScalesDsetX - (ScalesDfixX - ScalesValX)*-1);
+            D = Utils.ValToPrint(SelTool.ScalesDsetX - (SelTool.ScalesDfixX - ScalesValX)*-1);
     }
 
     //Применение значения линейки по Z
@@ -48,15 +55,15 @@ public class ModelLathe implements Serializable {
     //Установка диаметра от ТЕКУЩЕЙ позиции
     public void setD(double ScalesDsetX)
     {
-        this.ScalesDsetX = ScalesDsetX;
-        ScalesDfixX = ScalesValX;
+        SelTool.ScalesDsetX = ScalesDsetX;
+        SelTool.ScalesDfixX = ScalesValX;
     }
 
     //Установка диаметра с оффсетом позиции
     public void setD(double ScalesDsetX, double ScasesDfixX)
     {
-        this.ScalesDsetX = ScalesDsetX;
-        this.ScalesDfixX = ScasesDfixX;
+        SelTool.ScalesDsetX = ScalesDsetX;
+        SelTool.ScalesDfixX = ScasesDfixX;
     }
 
     //Установка длины от ТЕКУЩЕЙ позиции
@@ -77,17 +84,23 @@ public class ModelLathe implements Serializable {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, size);
     }
 
+    // Инструменты
+    public void selToolNum(int ToolNum){
+        this.ToolNum = ToolNum;
+        SelTool = Tools[ToolNum-1];
+    }
+
     //Обнуление относительных координат
-    public void SetX0(){ScalesOffsetX = ScalesValX;}
+    public void SetX0(){SelTool.ScalesOffsetX = ScalesValX;}
     public void SetZ0(){ScalesOffsetZ = ScalesValZ;}
 
     //Установлены ли абсолютные значения диаметра и длины
-    public boolean DSetted() { return (ScalesDsetX != 0);}
+    public boolean DSetted() { return (SelTool.ScalesDsetX != 0);}
     public boolean LSetted() { return (ScalesLsetZ != 0);}
 
     //Получение привязанных координат
-    public double getXval(){ return ScalesValX-ScalesOffsetX; }
-    public double getDval(){ return ScalesDsetX - (ScalesDfixX - ScalesValX)*-1; }
+    public double getXval(){ return ScalesValX-SelTool.ScalesOffsetX; }
+    public double getDval(){ return SelTool.ScalesDsetX - (SelTool.ScalesDfixX - ScalesValX)*-1; }
     public double getZval(){ return ScalesValZ-ScalesOffsetZ; }
     public double getLval(){ return ScalesLsetZ - (ScalesLfixZ - ScalesValZ)*-1; }
 }

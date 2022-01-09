@@ -156,44 +156,48 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="1"
+                        android:text="@{mLathe.ToolNum == 1 ? &quot;[ 1 ]&quot; : &quot;1&quot;}"
                         android:textSize="32dp"
                         app:layout_constraintEnd_toStartOf="@+id/cmdSetTol2"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:onClick="@{() -> mLathe.selToolNum(1)}"/>
 
                     <Button
                         android:id="@+id/cmdSetTol2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="2"
+                        android:text="@{mLathe.ToolNum == 2 ? &quot;[ 2 ]&quot; : &quot;2&quot;}"
                         android:textSize="32dp"
                         app:layout_constraintEnd_toStartOf="@+id/cmdSetTol3"
                         app:layout_constraintStart_toEndOf="@+id/cmdSetTol1"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:onClick="@{() -> mLathe.selToolNum(2)}"/>
 
                     <Button
                         android:id="@+id/cmdSetTol3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="3"
+                        android:text="@{mLathe.ToolNum == 3 ? &quot;[ 3 ]&quot; : &quot;3&quot;}"
                         android:textSize="32dp"
                         app:layout_constraintEnd_toStartOf="@+id/cmdSetTol4"
                         app:layout_constraintStart_toEndOf="@+id/cmdSetTol2"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:onClick="@{() -> mLathe.selToolNum(3)}"/>
 
                     <Button
                         android:id="@+id/cmdSetTol4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="4"
+                        android:text="@{mLathe.ToolNum == 4 ? &quot;[ 4 ]&quot; : &quot;4&quot;}"
                         android:textSize="32dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/cmdSetTol3"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:onClick="@{() -> mLathe.selToolNum(4)}"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </TableLayout>
