@@ -1,5 +1,6 @@
 package com.home.skiffdro.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -67,5 +68,15 @@ public class MillingMain extends Fragment implements BTEvent {
     }
     public double CenterY() {
         return binding.getMMilling().CenterY;
+    }
+
+    //Добавляет в Интент данные по диаметру, если тот задан
+    public void SetIntentCenter(Intent i)
+    {
+        if (CenterXFound() && CenterYFound())
+        {
+            i.putExtra("CenterX", CenterX());
+            i.putExtra("CenterY", CenterY());
+        }
     }
 }

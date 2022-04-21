@@ -63,6 +63,7 @@ public class MiniLathe extends Fragment  implements BTEvent {
 
     //Установка длины и диаметра
     public void setD(double ScalesDsetX, double ScasesDfixX){ binding.getMMiniLathe().setD(ScalesDsetX, ScasesDfixX); }
+    public void setD(Bundle b) { setD(b.getDouble("ScalesDsetX"), b.getDouble("ScalesDfixX")); }
     public void setL(double ScalesLsetY, double ScasesLfixY){ binding.getMMiniLathe().setL(ScalesLsetY, ScasesLfixY); }
 
     //Получение привязанных данных

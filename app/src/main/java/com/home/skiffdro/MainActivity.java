@@ -78,15 +78,11 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
             {
                 case "Нарезание резьбы":
                     intent = new Intent(MainActivity.this, LatheThread.class);
+                    ((LatheMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain)).SetIntentDval(intent);
                     break;
                 case "Канавки шкивов":
                     intent = new Intent(MainActivity.this, LathePulley.class);
-                    LatheMain LatFragmentP = (LatheMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain);
-                    if (LatFragmentP.DSetted())
-                    {
-                        intent.putExtra("ScalesDfixX", LatFragmentP.getScalesDfixX());
-                        intent.putExtra("ScalesDsetX", LatFragmentP.getScalesDsetX());
-                    }
+                    ((LatheMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain)).SetIntentDval(intent);
                     break;
                 case "Угломер":
                     intent = new Intent(MainActivity.this, LatheAngleMeter.class);
@@ -96,8 +92,7 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
                     if (LatFragmentB.DSetted())
                     {
                         intent = new Intent(MainActivity.this, LatheBoll.class);
-                        intent.putExtra("ScalesDfixX", LatFragmentB.getScalesDfixX());
-                        intent.putExtra("ScalesDsetX", LatFragmentB.getScalesDsetX());
+                        LatFragmentB.SetIntentDval(intent);
                     }
                     else
                         Toast.makeText(MainActivity.this, "Не привязан диаметр!", Toast.LENGTH_SHORT).show();
@@ -107,8 +102,7 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
                     if (MillFragment.CenterXFound() && MillFragment.CenterYFound())
                     {
                         intent = new Intent(MainActivity.this, MillingRoundDrill.class);
-                        intent.putExtra("CenterX", MillFragment.CenterX());
-                        intent.putExtra("CenterY", MillFragment.CenterY());
+                        MillFragment.SetIntentCenter(intent);
                     }
                     else
                         Toast.makeText(MainActivity.this, "Не найден центр!", Toast.LENGTH_SHORT).show();

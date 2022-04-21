@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/drawable/button_main.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/drawable/button_main_shape.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/activity_lathe_angle_meter.xml" value="0.1" />
         <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/activity_lathe_boll.xml" value="0.2760416666666667" />
         <entry key="..\:/Users/Skiff_000/AndroidStudioProjects/SkiffDRO/app/src/main/res/layout/activity_lathe_pulley.xml" value="0.11448834853090173" />
@@ -19,7 +21,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

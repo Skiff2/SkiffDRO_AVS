@@ -46,14 +46,17 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000080"
                         android:textSize="70dp"
+                        android:textStyle="bold"
                         android:text="@{mLathe.X}"/>
 
                     <Button
                         android:id="@+id/cmdResetX"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
                         android:layout_gravity="center_vertical"
                         android:text="Обнулить"
+                        style="@style/AppTheme.Button"
                         android:onClick="@{() -> mLathe.SetX0()}"/>
 
                 </TableRow>
@@ -77,13 +80,16 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000080"
                         android:textSize="70dp"
+                        android:textStyle="bold"
                         android:text="@{mLathe.D}"/>
 
                     <Button
                         android:id="@+id/cmdSetD"
+                        android:layout_marginRight="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        style="@style/AppTheme.Button"
                         android:text="Задать" />
 
                 </TableRow>
@@ -107,14 +113,17 @@
                         android:layout_height="wrap_content"
                         android:text="@{mLathe.Z}"
                         android:textColor="#000080"
-                        android:textSize="70dp" />
+                        android:textSize="70dp"
+                        android:textStyle="bold"/>
 
                     <Button
                         android:id="@+id/cmdResetY"
+                        android:layout_marginRight="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="Обнулить"
+                        style="@style/AppTheme.Button"
                         android:onClick="@{() -> mLathe.SetZ0()}"/>
                 </TableRow>
 
@@ -137,13 +146,16 @@
                         android:layout_height="wrap_content"
                         android:text="@{mLathe.L}"
                         android:textColor="#000080"
-                        android:textSize="70dp" />
+                        android:textSize="70dp"
+                        android:textStyle="bold"/>
 
                     <Button
                         android:id="@+id/cmdSetL"
+                        android:layout_marginRight="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        style="@style/AppTheme.Button"
                         android:text="Задать" />
                 </TableRow>
 
@@ -161,6 +173,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/cmdSetTol2"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        style="@style/AppTheme.Button"
                         android:onClick="@{() -> mLathe.selToolNum(1)}"/>
 
                     <Button
@@ -173,6 +186,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/cmdSetTol3"
                         app:layout_constraintStart_toEndOf="@+id/cmdSetTol1"
                         app:layout_constraintTop_toTopOf="parent"
+                        style="@style/AppTheme.Button"
                         android:onClick="@{() -> mLathe.selToolNum(2)}"/>
 
                     <Button
@@ -185,6 +199,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/cmdSetTol4"
                         app:layout_constraintStart_toEndOf="@+id/cmdSetTol2"
                         app:layout_constraintTop_toTopOf="parent"
+                        style="@style/AppTheme.Button"
                         android:onClick="@{() -> mLathe.selToolNum(3)}"/>
 
                     <Button
@@ -197,6 +212,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/cmdSetTol3"
                         app:layout_constraintTop_toTopOf="parent"
+                        style="@style/AppTheme.Button"
                         android:onClick="@{() -> mLathe.selToolNum(4)}"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

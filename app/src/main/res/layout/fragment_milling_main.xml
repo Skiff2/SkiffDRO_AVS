@@ -45,7 +45,8 @@
                         android:layout_height="wrap_content"
                         android:text="@{mMilling.strX}"
                         android:textColor="#000080"
-                        android:textSize="70dp" />
+                        android:textSize="70dp"
+                        android:textStyle="bold"/>
 
                     <Button
                         android:id="@+id/cmdResetX"
@@ -53,6 +54,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:onClick="@{() -> mMilling.SetX0()}"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginRight="10dp"
                         android:text="Обнулить" />
 
                 </TableRow>
@@ -76,7 +79,8 @@
                         android:layout_height="wrap_content"
                         android:text="@{mMilling.strY}"
                         android:textColor="#000080"
-                        android:textSize="70dp" />
+                        android:textSize="70dp"
+                        android:textStyle="bold"/>
 
                     <Button
                         android:id="@+id/cmdResetY"
@@ -84,6 +88,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:onClick="@{() -> mMilling.SetY0()}"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginRight="10dp"
                         android:text="Обнулить" />
 
                 </TableRow>
@@ -107,7 +113,8 @@
                         android:layout_height="wrap_content"
                         android:text="@{mMilling.strZ}"
                         android:textColor="#000080"
-                        android:textSize="70dp" />
+                        android:textSize="70dp"
+                        android:textStyle="bold"/>
 
                     <Button
                         android:id="@+id/cmdResetZ"
@@ -115,6 +122,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:onClick="@{() -> mMilling.SetZ0()}"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginRight="10dp"
                         android:text="Обнулить" />
                 </TableRow>
 
@@ -187,9 +196,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:textSize="25dp"
                         android:onClick="@{() -> mMilling.SetX1()}"
                         android:text="@{mMilling.X1Setted()? &quot;[X1]&quot; : &quot;X1&quot;}"
                         app:layout_constraintEnd_toStartOf="@+id/cmdSetY2"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginRight="10dp"
                         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
                     <Button
@@ -197,9 +209,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:textSize="25dp"
                         android:onClick="@{() -> mMilling.SetY1()}"
                         android:text="@{mMilling.Y1Setted()? &quot;[Y1]&quot; : &quot;Y1&quot;}"
                         app:layout_constraintEnd_toStartOf="@+id/cmdSetX2"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
                         app:layout_constraintTop_toBottomOf="@+id/cmdSetX1" />
 
                     <Button
@@ -207,9 +223,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:textSize="25dp"
                         android:onClick="@{() -> mMilling.SetX2()}"
                         android:text="@{mMilling.X2Setted()? &quot;[X2]&quot; : &quot;X2&quot;}"
                         app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginRight="10dp"
                         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
                     <Button
@@ -217,9 +236,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:textSize="25dp"
                         android:onClick="@{() -> mMilling.SetY2()}"
                         android:text="@{mMilling.Y2Setted()? &quot;[Y2]&quot; : &quot;Y2&quot;}"
                         app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
                         app:layout_constraintTop_toBottomOf="@+id/cmdSetX1" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

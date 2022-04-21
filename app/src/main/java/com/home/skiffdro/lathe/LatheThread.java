@@ -1,27 +1,32 @@
 package com.home.skiffdro.lathe;
 
+import static com.home.skiffdro.common.Utils.ValToPrint;
+
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.home.skiffdro.common.BT;
 import com.home.skiffdro.common.BTEvent;
 import com.home.skiffdro.R;
+import com.home.skiffdro.common.CenterSmoothScroller;
+import com.home.skiffdro.common.ItemAdapter;
+import com.home.skiffdro.common.Utils;
+import com.home.skiffdro.databinding.ActivityLatheThreadBinding;
+import com.home.skiffdro.fragments.MiniLathe;
+import com.home.skiffdro.models.ItemModel;
+import com.home.skiffdro.models.ModelLathe;
 
 import java.util.ArrayList;
 
@@ -50,66 +55,48 @@ public class LatheThread extends AppCompatActivity implements BTEvent {
         public ThreadDeep Deep;
     }
 
+    ArrayList<ItemModel> states = new ArrayList<>();
+    RecyclerView recyclerView;
+    Context context;
+    MiniLathe display;
+
     ArrayList<StandThread> Threads = new ArrayList<>();
     ArrayList<ThreadDeep> ThDeeps = new ArrayList<>();
     StandThread th = null; //Выбранная резьба
 
-    TextView txtThreadName, txtSizes, txtThreadDeep, txtMaxDeep, lblX, lblY;
-    ListView DeepSteps;
-    Button cmdResetX,  cmdResetY;
-    RadioButton optBolt, optNut;
+    ActivityLatheThreadBinding binding;
 
     BT con = null;
-    double ScalesValX = 0; //текущее АБСОЛЮТНОЕ значение линейки
-    double ScalesOffsetX = 0; //Значение локального обнуления
-    double ScalesValY = 0; //текущее АБСОЛЮТНОЕ значение линейки
-    double ScalesOffsetY = 0; //Значение локального обнуления
     double MaxDeep = 0; //Глубина максимального прохода
-    double LastY = 0;
+    double LastZ = 0;
     double LastX = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lathe_thread);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_lathe_thread);
+        binding.optBolt.setOnClickListener(this.optClickListener);
+        binding.optNut.setOnClickListener(this.optClickListener);
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        txtThreadName = (TextView) findViewById(R.id.txtThreadName);
-        txtSizes = (TextView)  findViewById(R.id.txtSizes);
-        txtThreadDeep =(TextView) findViewById(R.id.txtThreadDeep);
-        txtMaxDeep = (TextView) findViewById(R.id.txtMaxDeep);
-        DeepSteps = (ListView)findViewById(R.id.DeepSteps);
-        lblX = (TextView) findViewById(R.id.lblX);
-        lblY = (TextView) findViewById(R.id.lblY);
-        cmdResetX = (Button) findViewById(R.id.cmdResetX);
-        cmdResetY = (Button) findViewById(R.id.cmdResetY);
-        optBolt = (RadioButton)findViewById(R.id.optBolt);
-        optBolt.setOnClickListener(optClickListener);
-        optNut = (RadioButton)findViewById(R.id.optNut);
-        optNut.setOnClickListener(optClickListener);
+        Bundle arguments = getIntent().getExtras();
+        display = (MiniLathe) getSupportFragmentManager().findFragmentById(R.id.fragmentDisplay);
+
+        //Передача диаметра
+        if(arguments!=null){ display.setD(arguments); }
+
+        recyclerView = findViewById(R.id.recyclerView);
 
         con = BT.getInstance();
         con.addListener(LatheThread.this);
 
+        context = this;
+
         SelThread();
         RefreshBTData();
         ResetVals();
-
-        cmdResetX.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ScalesOffsetX = ScalesValX;
-                MaxDeep = 0;
-                for (int i = 0; i < DeepSteps.getCount(); i++)
-                    DeepSteps.setItemChecked(i, false);
-            }
-        });
-        cmdResetY.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ScalesOffsetY = ScalesValY;
-                LastY = ScalesValY;
-            }
-        });
     }
 
     View.OnClickListener optClickListener = new View.OnClickListener() {
@@ -117,9 +104,9 @@ public class LatheThread extends AppCompatActivity implements BTEvent {
         public void onClick(View v) {
             RadioButton rb = (RadioButton)v;
             switch (rb.getId()) {
-                case R.id.optBolt: if (th != null) txtSizes.setText("Пруток: " + (th.DVal - (th.DVal > 19? 0.12:0.14))); optNut.setChecked(false);
+                case R.id.optBolt: if (th != null)  binding.txtSizes.setText("Пруток: " + (th.DVal - (th.DVal > 19? 0.12:0.14))); binding.optNut.setChecked(false);
                     break;
-                case R.id.optNut: if (th != null) txtSizes.setText("Сверло: " + th.HoleVal); optBolt.setChecked(false);
+                case R.id.optNut: if (th != null) binding.txtSizes.setText("Сверло: " + th.HoleVal); binding.optBolt.setChecked(false);
                     break;
                 default:
                     break;
@@ -613,47 +600,40 @@ public class LatheThread extends AppCompatActivity implements BTEvent {
 
     @Override
     public void RefreshBTData() {
+        boolean Focused = false;
+        double X = 0;
         try {
-            ScalesValX = con.getValX() * (optBolt.isChecked()?1:-1); //Если режем гайку, то Х считаем наоборот.
-            ScalesValY = con.getValY();
+            X = display.getX() * (binding.optBolt.isChecked()?1:-1); //Если режем гайку, то Х считаем наоборот.
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < DeepSteps.getCount(); i++) {
-                            TextView vv = (TextView) DeepSteps.getAdapter().getView(i, null, null);
-                            String s = vv.getText().toString();
-                            s = s.substring(s.indexOf("[") + 1, s.indexOf("[") + 5).replace(",", ".");
+            for (int i = 0; i < states.size(); i++) {
 
-                            if (Math.abs(ScalesValY - LastY) > 1) //Значит, есть смещение.
-                            {
-                                MaxDeep = Math.max(MaxDeep, (ScalesValX - ScalesOffsetX));
+                ItemModel m = states.get(i);
 
-                                if (Double.parseDouble(s) <= (MaxDeep-0.03))  //3 сотки точности ведь достаточно для резьбы? )))
-                                    DeepSteps.setItemChecked(i, true);
-                            }
+                if (Math.abs(display.getZ() - LastZ) > 1) //Значит, есть смещение.
+                {
+                    MaxDeep = Math.max(MaxDeep, (X));
 
-                            if (Double.parseDouble(s) <= (ScalesValX - ScalesOffsetX))
-                                DeepSteps.getChildAt(i).setBackgroundColor(Color.YELLOW);
-                            else
-                                DeepSteps.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
-                        }
+                    if (m.getB() <= (MaxDeep-0.03))  //3 сотки точности ведь достаточно для резьбы? )))
+                        m.setCheck(true);
+                    recyclerView.getAdapter().notifyItemChanged(i);
+                }
 
-                        if (Math.abs(ScalesValY - LastY) > 1)
-                            LastY = ScalesValY;
-                    }
-                });
-            runOnUiThread(new Runnable() {
-                              @Override
-                              public void run() {
-                      txtMaxDeep.setText("Нарезано: " + ValToPrint(MaxDeep));
-                      lblX.setText(ValToPrint((ScalesValX - ScalesOffsetX)));
-                      lblY.setText(ValToPrint((ScalesValY - ScalesOffsetY)));
-                              }
-                });
+                if (!Focused && m.getB() >= MaxDeep) {
+                    Utils.SetRWPosition(recyclerView, i);
+                    m.setFoud(true);
+                    Focused = true;
+                }
+                else
+                    m.setFoud(false);
 
-            LastX = ScalesValX;
+            }
 
+            if (Math.abs(display.getZ() - LastZ) > 1)
+                LastZ = display.getZ();
+
+            binding.txtMaxDeep.setText("Нарезано: " + ValToPrint(MaxDeep));
+            LastX = display.getX();
+            recyclerView.getAdapter().notifyDataSetChanged();
         }
         catch (Exception ex)
         {
@@ -663,16 +643,9 @@ public class LatheThread extends AppCompatActivity implements BTEvent {
 
     private void ResetVals()
     {
-        ScalesOffsetX = ScalesValX; //Сброс Х
-        ScalesOffsetY = ScalesValY; //Сброс Y
         MaxDeep = 0;
-        LastY = ScalesValY;
-        LastX = ScalesValX;
-    }
-
-    public String ValToPrint(double val) {
-        if (val == 0) val = 0; //Ээээ... надо ))) Ну типа, избавление от -0 =)
-        return String.format("%.2f", val);
+        LastZ = con.getValZ();
+        LastX = con.getValX();
     }
 
     private void SelThread()
@@ -745,7 +718,7 @@ public class LatheThread extends AppCompatActivity implements BTEvent {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String strName = arrayAdapter.getItem(which);
-                txtThreadName.setText(strName.trim());
+                binding.txtThreadName.setText(strName.trim());
 
                 for (StandThread thread : Threads) {
                     if (thread.Name.equals(strName))                    {
@@ -753,30 +726,23 @@ public class LatheThread extends AppCompatActivity implements BTEvent {
                     }
                 }
 
-                txtSizes.setText("Пруток: " + (th.DVal - (th.DVal > 19? 0.12:0.14)));
-                txtThreadDeep.setText("Глубина: " + th.Deep.FullDeep);
+                binding.txtSizes.setText("Пруток: " + (th.DVal - (th.DVal > 19? 0.12:0.14)));
+                binding.txtThreadDeep.setText("Глубина: " + th.Deep.FullDeep);
 
                 ResetVals();
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(LatheThread.this, android.R.layout.simple_list_item_multiple_choice)
-                {
-                    public View getView(int position, View convertView, ViewGroup parent){
-                        TextView item = (TextView) super.getView(position,convertView,parent);
-                        item.setTextColor(Color.parseColor("#FF3E80F1"));
-                        item.setTypeface(item.getTypeface(), Typeface.BOLD);
-                        item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,26);
-                        return item;
-                    }
-                };
                 int bTotal = 0;
                 for (DeepVal val : th.Deep.Tasks) {
                     if (val.Val > 0){
                         bTotal += val.Val*100;
-                        adapter.add(val.Npp + ") " + String.format("%.2f", val.Val) + "   ["+String.format("%.2f",((float)bTotal/100))+"]");
+                        states.add(new ItemModel(val.Npp,"ΔX" ,"∑X", val.Val, (float)bTotal/100));
+                        //adapter.add(val.Npp + ") " + String.format("%.2f", val.Val) + "   ["+String.format("%.2f",((float)bTotal/100))+"]");
                     }
                 }
-                DeepSteps.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                DeepSteps.setAdapter(adapter);
+
+                ItemAdapter adapter = new ItemAdapter(context, states);
+                RecyclerView.SmoothScroller smoothScroller = new CenterSmoothScroller(recyclerView.getContext());
+                recyclerView.setAdapter(adapter);
             }
         });
         builderSingle.show();
@@ -805,7 +771,7 @@ public class LatheThread extends AppCompatActivity implements BTEvent {
             public void onClick(DialogInterface dialog, int which) {
                 String strName = arrayAdapter.getItem(which);
 
-                txtThreadName.setText("XX*" + strName.trim());
+                binding.txtThreadName.setText("XX*" + strName.trim());
                 ResetVals();
 
                 ThreadDeep td = null;
@@ -815,28 +781,21 @@ public class LatheThread extends AppCompatActivity implements BTEvent {
                     }
                 }
 
-                txtSizes.setVisibility(View.INVISIBLE);
-                txtThreadDeep.setVisibility(View.INVISIBLE);
+                binding.txtSizes.setVisibility(View.INVISIBLE);
+                binding.txtThreadDeep.setVisibility(View.INVISIBLE);
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(LatheThread.this, android.R.layout.simple_list_item_multiple_choice)
-                {
-                    public View getView(int position, View convertView, ViewGroup parent){
-                        TextView item = (TextView) super.getView(position,convertView,parent);
-                        item.setTextColor(Color.parseColor("#FF3E80F1"));
-                        item.setTypeface(item.getTypeface(), Typeface.BOLD);
-                        item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,26);
-                        return item;
-                    }
-                };
                 int bTotal = 0;
                 for (DeepVal val : td.Tasks) {
                     if (val.Val > 0){
                         bTotal += val.Val*100;
-                        adapter.add(val.Npp + ") " + String.format("%.2f", val.Val) + "   ["+String.format("%.2f",((float)bTotal/100))+"]");
+                        states.add(new ItemModel(val.Npp,"ΔX" ,"∑X", val.Val, (float)bTotal/100));
+                        //adapter.add(val.Npp + ") " + String.format("%.2f", val.Val) + "   ["+String.format("%.2f",((float)bTotal/100))+"]");
                     }
                 }
-                DeepSteps.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                DeepSteps.setAdapter(adapter);
+
+                ItemAdapter adapter = new ItemAdapter(context, states);
+                RecyclerView.SmoothScroller smoothScroller = new CenterSmoothScroller(recyclerView.getContext());
+                recyclerView.setAdapter(adapter);
             }
         });
         builderSingle.show();

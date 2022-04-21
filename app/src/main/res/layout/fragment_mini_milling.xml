@@ -61,6 +61,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    style="@style/Widget.AppCompat.Button.Colored"
                     android:visibility="@{mMilling.ShowResetX ? View.VISIBLE: View.GONE}"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -105,6 +106,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    style="@style/Widget.AppCompat.Button.Colored"
                     android:visibility="@{mMilling.ShowResetY ? View.VISIBLE: View.GONE}"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -148,6 +150,7 @@
                     android:text="Обнулить"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/Widget.AppCompat.Button.Colored"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

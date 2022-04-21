@@ -1,5 +1,6 @@
 package com.home.skiffdro.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ public class LatheMain extends Fragment implements BTEvent {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_lathe_main, container, false);
         binding.setMLathe(new ModelLathe());
+
         return binding.getRoot();
     }
 
@@ -107,4 +109,14 @@ public class LatheMain extends Fragment implements BTEvent {
     public double getZ() { return binding.getMLathe().getZval();}
     public double getD() { return binding.getMLathe().getDval();}
     public double getL() { return binding.getMLathe().getLval();}
+
+    //Добавляет в Интент данные по диаметру, если тот задан
+    public void SetIntentDval(Intent i)
+    {
+        if (DSetted())
+        {
+            i.putExtra("ScalesDfixX", getScalesDfixX());
+            i.putExtra("ScalesDsetX", getScalesDsetX());
+        }
+    }
 }

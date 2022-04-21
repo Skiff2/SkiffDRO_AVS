@@ -67,9 +67,10 @@ public class LathePulley extends AppCompatActivity implements BTEvent {
         Bundle arguments = getIntent().getExtras();
         display = (MiniLathe) getSupportFragmentManager().findFragmentById(R.id.fragmentDisplay);
 
-        if(arguments!=null){ //Передача диаметра
-            display.setD(arguments.getDouble("ScalesDsetX"), arguments.getDouble("ScalesDfixX"));
-        }
+//        if(arguments!=null){ //Передача диаметра
+//            display.setD(arguments.getDouble("ScalesDsetX"), arguments.getDouble("ScalesDfixX"));
+//        }
+        if(arguments!=null){ display.setD(arguments); }
 
         LoadProfiles();
         SelProfile();
@@ -188,7 +189,7 @@ public class LathePulley extends AppCompatActivity implements BTEvent {
                 else
                     m.setFoud(false);
 
-                if (i < recyclerView.getAdapter().getItemCount())
+                //if (i < recyclerView.getAdapter().getItemCount())
                     recyclerView.getAdapter().notifyItemChanged(i);
             }
             recyclerView.getAdapter().notifyDataSetChanged();
