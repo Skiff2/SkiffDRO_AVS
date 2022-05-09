@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.home.skiffdro"
         minSdkVersion 14
-        targetSdkVersion 29
+        targetSdk 14
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

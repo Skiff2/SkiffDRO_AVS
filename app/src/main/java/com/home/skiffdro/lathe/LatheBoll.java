@@ -88,8 +88,6 @@ public class LatheBoll extends AppCompatActivity implements BTEvent, TextWatcher
     @Override
     public void RefreshBTData() {
         try {
-
-
             if (states.size() > 0) {
                 for (int i = 0; i < states.size(); i++) {
                     ItemModel m = states.get(i);
@@ -100,7 +98,7 @@ public class LatheBoll extends AppCompatActivity implements BTEvent, TextWatcher
                     } else
                         m.setFoud(false);
 
-                    if (Math.abs(m.getB() - display.getD()) <= 0.05 && Math.abs(m.getB() - display.getZ()) <= 0.05) {
+                    if (Math.abs(m.getB() - display.getD()) <= 0.1 && Math.abs(m.getA() - display.getZ()) <= 0.1) {
                         m.setCheck(true);
                     }
                     recyclerView.getAdapter().notifyItemChanged(i);
@@ -127,16 +125,37 @@ public class LatheBoll extends AppCompatActivity implements BTEvent, TextWatcher
 
         int N = Stps / 2;
 
-        for (int i = 0; i < N + 1; i++)
+//        for (int i = 0; i < N + 1; i++)
+//        {
+//            vals v = new vals();
+//            v.X = (r / (Stps / 2))* i;
+//            v.Y = Math.sqrt((r * r) - (v.X * v.X)) * 2;
+//            arr[i+N] = v;
+//            arr[i + N].X += r;
+//        }
+
+        double sumX = 0;
+
+        for (int i = 0; i < N ; i++)
         {
             vals v = new vals();
-            v.X = (r / (Stps / 2))* i;
+
+            //v.X = (r / (Stps / 2))* i;
+            if (i < N / 2+1)
+            {
+                v.X = ((r / (Stps / 2)) * i) * 1.5;
+                sumX = v.X;
+            }
+            else
+            {
+                v.X = sumX + ((r / (Stps / 2)) * (i + 1 - N / 2)) / 2;
+            }
             v.Y = Math.sqrt((r * r) - (v.X * v.X)) * 2;
             arr[i+N] = v;
             arr[i + N].X += r;
         }
 
-        for (int i = 0; i < N+1; i++)
+        for (int i = 0; i < N; i++)
         {
             vals v = new vals();
             v.X = d-arr[i + N].X;
