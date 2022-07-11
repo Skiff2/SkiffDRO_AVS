@@ -1,27 +1,41 @@
 package com.home.skiffdro;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.home.skiffdro.common.BT;
 import com.home.skiffdro.common.BTEvent;
+import com.home.skiffdro.common.CenterSmoothScroller;
+import com.home.skiffdro.common.ItemAdapter;
+import com.home.skiffdro.common.MarkAdapter;
+import com.home.skiffdro.common.MarkDialog;
+import com.home.skiffdro.common.Notifier;
+import com.home.skiffdro.common.Setts;
+import com.home.skiffdro.common.SettsActivity;
+import com.home.skiffdro.common.Utils;
+import com.home.skiffdro.common.YesNoDialog;
+import com.home.skiffdro.databinding.FragmentLatheMainBinding;
 import com.home.skiffdro.fragments.LatheMain;
 import com.home.skiffdro.fragments.MillingMain;
 import com.home.skiffdro.lathe.LatheAngleMeter;
@@ -29,6 +43,8 @@ import com.home.skiffdro.lathe.LatheBoll;
 import com.home.skiffdro.lathe.LathePulley;
 import com.home.skiffdro.lathe.LatheThread;
 import com.home.skiffdro.milling.MillingRoundDrill;
+import com.home.skiffdro.models.ItemModel;
+import com.home.skiffdro.models.MarkModel;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -38,15 +54,35 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
     String DeviceMAC = "";
     String DeviceName;
 
-    ListView TasksList;
+    boolean IsPortret = false;
+    boolean IsInitialized = false;
+    Fragment CurrDisplay;
+
+    RecyclerView recyclerView;
+    ArrayList<MarkModel> Marks = new ArrayList<>();
+    MarkAdapter adapter;
+
+    MediaPlayer MarkBell;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Setts sets = Setts.getInstance(getApplicationContext());
+        IsPortret = sets.getIsPortret();
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        MarkBell = MediaPlayer.create(this, R.raw.markbell);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        if (IsPortret)
+        {
+            ((LinearLayout) findViewById(R.id.llMarks)).setWeightSum(1);
+            ((LinearLayout) findViewById(R.id.frLandscape)).setVisibility(View.GONE);
+        }
         //А блютус то есть? А включен?
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter != null) {
@@ -66,54 +102,111 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
         else
             SelBTDevice();
 
+        Button cmdAddMark = (Button) findViewById(R.id.cmdAddMarks);
+        Button cmdResetMarks = (Button) findViewById(R.id.cmdResetMarks);
 
-        TasksList = (ListView)findViewById(R.id.TasksList);
-
-        TasksList.setOnItemClickListener((parent, itemClicked, position, id) -> {
-            TextView textView = (TextView) itemClicked;
-            String strText = textView.getText().toString(); // получаем текст нажатого элемента
-
-            Intent intent = null;
-            switch(strText)
-            {
-                case "Нарезание резьбы":
-                    intent = new Intent(MainActivity.this, LatheThread.class);
-                    ((LatheMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain)).SetIntentDval(intent);
-                    break;
-                case "Канавки шкивов":
-                    intent = new Intent(MainActivity.this, LathePulley.class);
-                    ((LatheMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain)).SetIntentDval(intent);
-                    break;
-                case "Угломер":
-                    intent = new Intent(MainActivity.this, LatheAngleMeter.class);
-                    break;
-                case "Шарик":
-                    LatheMain LatFragmentB = (LatheMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain);
-                    if (LatFragmentB.DSetted())
-                    {
-                        intent = new Intent(MainActivity.this, LatheBoll.class);
-                        LatFragmentB.SetIntentDval(intent);
-                    }
-                    else
-                        Toast.makeText(MainActivity.this, "Не привязан диаметр!", Toast.LENGTH_SHORT).show();
-                    break;
-                case "Сверление по окружности":
-                    MillingMain MillFragment = (MillingMain) getSupportFragmentManager().findFragmentById(R.id.fragmentMain);
-                    if (MillFragment.CenterXFound() && MillFragment.CenterYFound())
-                    {
-                        intent = new Intent(MainActivity.this, MillingRoundDrill.class);
-                        MillFragment.SetIntentCenter(intent);
-                    }
-                    else
-                        Toast.makeText(MainActivity.this, "Не найден центр!", Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + strText);
+        //Добавление метки
+        cmdAddMark.setOnClickListener(v -> new MarkDialog(new MarkDialog.DialogEvent() {
+            @Override
+            public void DialogOK(MarkModel m) {
+                Marks.add(m);
+                adapter.notifyDataSetChanged();
             }
-            if (intent != null)startActivity(intent);
-        });
+
+            @Override
+            public void DialogCancel() {  }
+        }, MainActivity.this, CurrDisplay ));
+
+        //удаление всех меток
+        cmdResetMarks.setOnClickListener(v -> new YesNoDialog(new YesNoDialog.DialogEvent() {
+            @Override
+            public void DialogYes() {
+                Marks.clear();
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void DialogNo() {
+
+            }
+        }, MainActivity.this, "Удаление всех меток.","Вы уверены?" ));
+
+        recyclerView = findViewById(R.id.MarksList);
+        RecyclerView.SmoothScroller smoothScroller = new CenterSmoothScroller(recyclerView.getContext());
+        adapter = new MarkAdapter(this, Marks);
+        recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        new MenuInflater(this).inflate(R.menu.lathe_menu, menu);
+        return(super.onCreateOptionsMenu(menu));
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (con != null) {
+            menu.clear();
+            MenuInflater inflater = getMenuInflater();
+            if (con.getDeviceType() == BT.DeviceType.Lathe)
+                inflater.inflate(R.menu.lathe_menu, menu);
+            else
+                inflater.inflate(R.menu.milling_menu, menu);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        int fragmentMain = IsPortret? R.id.frPortret:R.id.frLandscape;
+        String strText = item.getTitle().toString(); // получаем текст нажатого элемента
+
+        Intent intent = null;
+        switch(strText)
+        {
+            case "Настройки":
+                intent = new Intent(MainActivity.this, SettsActivity.class);
+                break;
+            case "Нарезание резьбы":
+                intent = new Intent(MainActivity.this, LatheThread.class);
+                ((LatheMain) getSupportFragmentManager().findFragmentById(fragmentMain)).SetIntentDval(intent);
+                break;
+            case "Нарезка шкивов":
+                intent = new Intent(MainActivity.this, LathePulley.class);
+                ((LatheMain) getSupportFragmentManager().findFragmentById(fragmentMain)).SetIntentDval(intent);
+                break;
+            case "Угломер":
+                intent = new Intent(MainActivity.this, LatheAngleMeter.class);
+                break;
+            case "Вытачивание шарика":
+                LatheMain LatFragmentB = (LatheMain) getSupportFragmentManager().findFragmentById(fragmentMain);
+                if (LatFragmentB.DSetted())
+                {
+                    intent = new Intent(MainActivity.this, LatheBoll.class);
+                    LatFragmentB.SetIntentDval(intent);
+                }
+                else
+                    Toast.makeText(MainActivity.this, "Не привязан диаметр!", Toast.LENGTH_SHORT).show();
+                break;
+            case "Сверление по окружности":
+                MillingMain MillFragment = (MillingMain) getSupportFragmentManager().findFragmentById(fragmentMain);
+                if (MillFragment.CenterXFound() && MillFragment.CenterYFound())
+                {
+                    intent = new Intent(MainActivity.this, MillingRoundDrill.class);
+                    MillFragment.SetIntentCenter(intent);
+                }
+                else
+                    Toast.makeText(MainActivity.this, "Не найден центр!", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + strText);
+        }
+        if (intent != null)startActivity(intent);
+
+
+        return false;
+    }
     @Override
     protected void onStart() { // Запрос на включение Bluetooth
         super.onStart();
@@ -131,72 +224,136 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
     @Override
     public void RefreshBTData() {
         runOnUiThread(() -> {
-            if (con.getIsConnected())
-                setTitle("Подключено: " + con.getDeviceType() + " " + DeviceName);
+            if (con.getIsConnected() && con.getDeviceType() != BT.DeviceType.None ) {
+                setTitle("Подключено: " + (con.getDeviceType() == BT.DeviceType.Lathe?"Токарный":"Фрезерный") + " " + DeviceName);
+
+                if (CurrDisplay == null) {
+                    if (IsPortret)
+                        CurrDisplay = getSupportFragmentManager().findFragmentById(R.id.frPortret);
+                    else
+                        CurrDisplay = getSupportFragmentManager().findFragmentById(R.id.frLandscape);
+                }
+
+                if (!IsInitialized)
+                {
+                    if (con.getDeviceType() == BT.DeviceType.Lathe) PrepareAsLathe();
+                    if (con.getDeviceType() == BT.DeviceType.Milling) PrepareAsMilling();
+
+                    IsInitialized = true;
+                }
+                else
+                {
+                    //Обработка меток
+                    if (con.getDeviceType() == BT.DeviceType.Lathe) {
+                        LatheMain lm = (LatheMain)CurrDisplay;
+                        for (int i = 0; i < Marks.size(); i++) {
+                            MarkModel m = Marks.get(i);
+                            boolean Fnd = (!m.HaveA() || Math.abs(lm.getX() - m.getA()) <= 0.5) &&
+                                    (!m.HaveC() || Math.abs(lm.getZ() - m.getC()) <= 0.5);
+
+                            if (!m.getFound() && Fnd)
+                            {
+                                if (m.getNotify()) {
+
+                                    Notifier n = new Notifier(this);
+                                    String msg = "Достигнута засечка!";
+                                    if (m.getName().length() > 0) msg = m.getName();
+                                    n.ShowMarkAlarm(msg);
+                                }
+                                else
+                                    MarkBell.start();
+                            }
+
+                            if (m.getFound() != Fnd) {
+                                m.setFoud(Fnd);
+                                recyclerView.getAdapter().notifyItemChanged(i);
+                            }
+
+                            if (Fnd) Utils.SetRWPosition(recyclerView, i);
+                        }
+                    } else {
+                        MillingMain mm = (MillingMain)CurrDisplay;
+                        for (int i = 0; i < Marks.size(); i++) {
+                            MarkModel m = Marks.get(i);
+                            boolean Fnd = (!m.HaveA() || Math.abs(mm.getX() - m.getA()) <= 0.5) &&
+                                    (!m.HaveB() || Math.abs(mm.getY() - m.getB()) <= 0.5) &&
+                                    (!m.HaveC() || Math.abs(mm.getZ() - m.getC()) <= 0.5);
+
+                            if (!m.getFound() && Fnd)
+                            {
+                                if (m.getNotify()) {
+
+                                    Notifier n = new Notifier(this);
+                                    String msg = "Достигнута засечка!";
+                                    if (m.getName().length() > 0) msg = m.getName();
+                                    n.ShowMarkAlarm(msg);
+                                }
+                                else
+                                    MarkBell.start();
+                            }
+
+                            if (m.getFound() != Fnd) {
+                                m.setFoud(Fnd);
+                                recyclerView.getAdapter().notifyItemChanged(i);
+                            }
+
+                            if (Fnd) Utils.SetRWPosition(recyclerView, i);
+                        }
+                    }
+                }
+            }
             else
                 setTitle("Подключение к " + DeviceName);
-
-            if (TasksList.getAdapter() == null)
-            {
-                if (con.getDeviceType().equals("Токарный")) PrepareAsLathe();
-                if (con.getDeviceType().equals("Фрезерный")) PrepareAsMilling();
-            }
     });
     }
 
     private  void PrepareAsLathe()
     {
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragmentMain, LatheMain.class, null)
-                .commit();
-
-        ArrayList<String> Tasks = new ArrayList<>();
-        Tasks.add("Нарезание резьбы");
-        Tasks.add("Канавки шкивов");
-        //Tasks.add("Угломер");
-        Tasks.add("Шарик");
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Tasks)
-        {
-            public View getView(int position, View convertView, ViewGroup parent){
-                TextView item = (TextView) super.getView(position,convertView,parent);
-                item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,24);
-                return item;
-            }
-        };
-        TasksList.setAdapter(adapter);
+        if (IsPortret)
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frPortret, CurrDisplay, null)
+                    .commit();
+        else
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frLandscape, CurrDisplay, null)
+                    .commit();
     }
 
     private void PrepareAsMilling()
     {
-        getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragmentMain, MillingMain.class, null)
+        if (IsPortret)
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frPortret, MillingMain.class, null)
+                    .commit();
+        else
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frLandscape, MillingMain.class, null)
                     .commit();
 
-        ArrayList<String> Tasks = new ArrayList<>();
-        Tasks.add("Сверление по окружности");
-        //Tasks.add("Скругление углов");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Tasks)
-        {
-            public View getView(int position, View convertView, ViewGroup parent){
-                TextView item = (TextView) super.getView(position,convertView,parent);
-                item.setTextSize(TypedValue.COMPLEX_UNIT_DIP,24);
-                return item;
-            }
-        };
-        TasksList.setAdapter(adapter);
     }
 
     private void SelBTDevice() { // Создание списка сопряжённых Bluetooth-устройств
+
+        Setts s = Setts.getInstance();
+        Set<String> Sel = s.getBTDevicesList();
+
+        if (Sel != null && Sel.size() == 1){
+            StartBTConnect(Sel.iterator().next());
+            return;
+        }
 
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
         builderSingle.setTitle("Выберите устройство:");
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.select_dialog_singlechoice);
         Set<BluetoothDevice> pairedDevices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
+
+
+
         for (BluetoothDevice device : pairedDevices) { // Добавляем сопряжённые устройства - Имя + MAC-адресс
-            arrayAdapter.add(device.getName() + "\n" + device.getAddress());
+            if (Sel == null || Sel.size() == 0 || Sel.contains(device.getName() + "\n" + device.getAddress()))
+                arrayAdapter.add(device.getName() + "\n" + device.getAddress());
         }
 
         builderSingle.setNegativeButton("Отмена", (dialog, which) -> {
@@ -206,13 +363,17 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
 
         builderSingle.setAdapter(arrayAdapter, (dialog, which) -> {
             String strName = arrayAdapter.getItem(which);
-            DeviceName = strName.substring(0,strName.length() - 18);
-            Toast.makeText(MainActivity.this, "Подключаюсь к " + DeviceName, Toast.LENGTH_SHORT).show();
-            DeviceMAC = strName.substring(strName.length() - 17); // Вычленяем MAC-адрес
-            con = BT.getInstance(DeviceMAC); // new BT();
-            con.addListener(MainActivity.this);
+            StartBTConnect(strName);
         });
         builderSingle.show();
+    }
+
+    private void StartBTConnect(@NonNull String strName) {
+        DeviceName = strName.substring(0, strName.length() - 18);
+        Toast.makeText(MainActivity.this, "Подключаюсь к " + DeviceName, Toast.LENGTH_SHORT).show();
+        DeviceMAC = strName.substring(strName.length() - 17); // Вычленяем MAC-адрес
+        con = BT.getInstance(DeviceMAC); // new BT();
+        con.addListener(MainActivity.this);
     }
 
 

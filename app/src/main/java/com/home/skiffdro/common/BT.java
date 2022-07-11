@@ -28,11 +28,13 @@ public class BT {
     private float valX;
     private float valY;
     private float valZ;
-    private String DeviceType = "?";
+    private DeviceType deviceType = DeviceType.None;
     public float getValX() {return valX; }
     public float getValY() {return valY; }
     public float getValZ() {return valZ; }
-    public String getDeviceType() { return DeviceType; }
+
+    public enum DeviceType { Milling, Lathe, None }
+    public DeviceType getDeviceType() { return deviceType; }
 
     public String Delim = null;
 
@@ -226,16 +228,16 @@ public class BT {
                         sb.delete(0, sb.length());
                         if (Delim == null)
                         {
-                            if (sbprint.indexOf('|') > -1) { Delim = "\\|"; DeviceType = "Токарный"; }
-                            if (sbprint.indexOf('*') > -1) { Delim = "\\*"; DeviceType = "Фрезерный"; }
+                            if (sbprint.indexOf('|') > -1) { Delim = "\\|"; deviceType = DeviceType.Lathe; }
+                            if (sbprint.indexOf('*') > -1) { Delim = "\\*"; deviceType = DeviceType.Milling; }
                         }
-                        if (DeviceType.equals("Токарный")) {
+                        if (deviceType == DeviceType.Lathe) {
                             String[] ret = sbprint.split(Delim);
                             valX = Float.parseFloat(ret[0]) / 100;
                             valY = Float.parseFloat(ret[1]) / 200;
                             RefreshListeners();
                         }
-                        if (DeviceType.equals("Фрезерный")) {
+                        if (deviceType == DeviceType.Milling) {
                             String[] ret = sbprint.split(Delim);
                             valX = Float.parseFloat(ret[0]) / 200;
                             valY = Float.parseFloat(ret[1]) / 200;

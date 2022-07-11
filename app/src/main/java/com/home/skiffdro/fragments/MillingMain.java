@@ -70,6 +70,11 @@ public class MillingMain extends Fragment implements BTEvent {
         return binding.getMMilling().CenterY;
     }
 
+    //Получение привязанных данных
+    public double getX() {return binding.getMMilling().getXval();}
+    public double getY() {return binding.getMMilling().getYval();}
+    public double getZ() {return binding.getMMilling().getZval();}
+
     //Добавляет в Интент данные по диаметру, если тот задан
     public void SetIntentCenter(Intent i)
     {

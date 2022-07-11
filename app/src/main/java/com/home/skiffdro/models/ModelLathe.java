@@ -12,7 +12,7 @@ import com.home.skiffdro.common.Utils;
 import java.io.Serializable;
 import java.sql.Struct;
 
-public class ModelLathe implements Serializable {
+public class ModelLathe {
 
     public LatheTool Tools[] = {new LatheTool(), new LatheTool(), new LatheTool(), new LatheTool()};
     public LatheTool SelTool = Tools[0];

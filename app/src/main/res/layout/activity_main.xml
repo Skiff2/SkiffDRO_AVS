@@ -9,38 +9,67 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/frLandscape"
+            android:layout_width="0dp"
+            android:layout_weight=".45"
+            android:background="#E0FFFF"
+            android:paddingStart="15dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"/>
+
+    <LinearLayout
+        android:id="@+id/llMarks"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".55"
         android:orientation="vertical">
 
-        <TableLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/frPortret"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#E0FFFF"
-            android:paddingBottom="15dp"
-            android:stretchColumns="1">
+            android:orientation="vertical"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentMain"
+            <TextView
+                android:id="@+id/textView4"
+                android:paddingTop="5dp"
+                android:textSize="24dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text=" Засечки:" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <Button
+                android:id="@+id/cmdAddMarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Создать" />
+            <Button
+                android:id="@+id/cmdResetMarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Очистить все" />
 
-        </TableLayout>
 
-        <TextView
-            android:id="@+id/textView4"
-            android:paddingTop="5dp"
-            android:textSize="24dp"
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/MarksList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" Доступные операции:" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        <ListView
-            android:id="@+id/TasksList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="8dp">
-
-        </ListView>
-
+        </LinearLayout>
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

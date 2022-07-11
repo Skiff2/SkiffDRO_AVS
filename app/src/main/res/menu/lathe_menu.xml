@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/grp1">
+        <item
+            android:id="@+id/Thread"
+            android:title="Нарезание резьбы" />
+
+        <item
+            android:id="@+id/Pulley"
+            android:title="Нарезка шкивов" />
+
+        <item
+            android:id="@+id/Boll"
+            android:title="Вытачивание шарика" />
+
+    </group>
+    <item
+        android:id="@+id/setts"
+        android:icon="@drawable/setts"
+        android:title="Настройки" />
+
+</menu>
