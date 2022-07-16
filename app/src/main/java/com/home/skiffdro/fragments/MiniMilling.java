@@ -12,15 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.home.skiffdro.R;
-import com.home.skiffdro.common.BT;
-import com.home.skiffdro.common.BTEvent;
+import com.home.skiffdro.common.connections.BT;
+import com.home.skiffdro.common.connections.Connection;
+import com.home.skiffdro.common.connections.ConnectionEvent;
+import com.home.skiffdro.common.connections.IConnection;
 import com.home.skiffdro.databinding.FragmentMiniMillingBinding;
 import com.home.skiffdro.models.ModelMilling;
 
 
-public class MiniMilling extends Fragment implements BTEvent {
+public class MiniMilling extends Fragment implements ConnectionEvent {
     FragmentMiniMillingBinding binding;
-    BT con = null;
+    IConnection con = null;
 
     public MiniMilling() { }
 
@@ -31,7 +33,7 @@ public class MiniMilling extends Fragment implements BTEvent {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        con = BT.getInstance();
+        con = (IConnection) Connection.getInstance();
         con.addListener(MiniMilling.this);
 
         ModelMilling m = binding.getMMilling();
@@ -53,7 +55,7 @@ public class MiniMilling extends Fragment implements BTEvent {
     }
 
     @Override
-    public void RefreshBTData() {
+    public void RefreshData() {
         ModelMilling m = binding.getMMilling();
 
         m.setScalesValX(con.getValX());

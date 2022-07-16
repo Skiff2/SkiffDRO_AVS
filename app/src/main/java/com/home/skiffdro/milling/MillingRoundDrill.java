@@ -4,27 +4,28 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.home.skiffdro.common.BT;
-import com.home.skiffdro.common.BTEvent;
-import com.home.skiffdro.common.CenterSmoothScroller;
-import com.home.skiffdro.common.InputDialog;
-import com.home.skiffdro.common.ItemAdapter;
+import com.home.skiffdro.common.connections.BT;
+import com.home.skiffdro.common.connections.ConnectionEvent;
+import com.home.skiffdro.common.adapters.CenterSmoothScroller;
+import com.home.skiffdro.common.dialogs.InputDialog;
+import com.home.skiffdro.common.adapters.ItemAdapter;
+import com.home.skiffdro.common.Setts;
 import com.home.skiffdro.common.Utils;
-import com.home.skiffdro.fragments.MillingMain;
 import com.home.skiffdro.fragments.MiniMilling;
 import com.home.skiffdro.R;
 import com.home.skiffdro.models.ItemModel;
 
 import java.util.ArrayList;
 
-public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
+public class MillingRoundDrill extends AppCompatActivity implements ConnectionEvent {
 
     ArrayList<ItemModel> states = new ArrayList<>();
     RecyclerView recyclerView;
@@ -44,21 +45,17 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        InitDispaly();
+
         con = BT.getInstance();
         con.addListener(MillingRoundDrill.this);
 
         Bundle arguments = getIntent().getExtras();
-
-        display = (MiniMilling) getSupportFragmentManager().findFragmentById(R.id.fragmentMiniCoordinate);
-        display.HideResetX();
-        display.HideResetY();
-
-        if(arguments!=null){ //Позиционируемя относительно центра
+        if(arguments!=null) { //Позиционируемя относительно центра
             CenterX = arguments.getDouble("CenterX");
             CenterY = arguments.getDouble("CenterY");
-            display.setScalesOffsetX(CenterX);
-            display.setScalesOffsetY(CenterY);
         }
+
         new InputDialog("Радиус сверления", 0, new InputDialog.DialogEvent() {
             @Override
             public void DialogOK(String Text) {
@@ -112,6 +109,25 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
         con.addListener(MillingRoundDrill.this);
     }
 
+    private void InitDispaly() {
+        Setts sets = Setts.getInstance(getApplicationContext());
+        boolean IsPortret = sets.getIsPortret();
+
+        if (IsPortret) {
+            this.getSupportFragmentManager().beginTransaction()
+                    .add(R.id.mfrPortret, MiniMilling.class, null)
+                    .commit();
+
+            ((LinearLayout) findViewById(R.id.llMarks)).setWeightSum(1);
+            ((LinearLayout) findViewById(R.id.mfrLandscape)).setVisibility(View.GONE);
+        }
+        else {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.mfrLandscape, MiniMilling.class, null)
+                    .commit();
+        }
+    }
+
     private void setInitialData(){
         try {
             double AddAngl = (StAngle * Math.PI) / 180;
@@ -133,7 +149,9 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
     }
 
     @Override
-    public void RefreshBTData() {
+    public void RefreshData() {
+        InitDisplay();
+
         try {
             for (int i = 0; i < states.size(); i++) {
                 ItemModel m = states.get(i);
@@ -153,6 +171,26 @@ public class MillingRoundDrill extends AppCompatActivity implements BTEvent {
         }
         catch(Exception ex)
         {}
+    }
+
+    private void InitDisplay()
+    {
+        if (display != null) return;
+
+        Setts sets = Setts.getInstance(getApplicationContext());
+        boolean IsPortret = sets.getIsPortret();
+        if (IsPortret)
+            display = (MiniMilling) this.getSupportFragmentManager().findFragmentById(R.id.mfrPortret);
+        else
+            display =  (MiniMilling)getSupportFragmentManager().findFragmentById(R.id.mfrLandscape);
+
+        if (display == null) return;
+
+        display.HideResetX();
+        display.HideResetY();
+
+        display.setScalesOffsetX(CenterX);
+        display.setScalesOffsetY(CenterY);
     }
 
     @Override

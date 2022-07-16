@@ -29,6 +29,14 @@ public class Setts {
     public boolean getIsPortret() {return prefs.getBoolean("IsPortret", true);  }
     public void setIsPortret(boolean val) { prefs.edit().putBoolean("IsPortret", val).apply(); }
 
+    //Показывать 4 инстурмента в токарном режиме
+    public boolean getIsShow4LatheTool() {return prefs.getBoolean("IsShow4LatheTool", true);  }
+    public void setIsShow4LatheTool(boolean val) { prefs.edit().putBoolean("IsShow4LatheTool", val).apply(); }
+
+    //Использовать USB подключение
+    public boolean getIsUseUSB() {return prefs.getBoolean("IsUseUSB", true);  }
+    public void setIsUseUSB(boolean val) { prefs.edit().putBoolean("IsUseUSB", val).apply(); }
+
     //Список БТ устройств для выбора
     public void setBTDevicesList (Set<String> BTList) {prefs.edit().putStringSet("SelectedBTDevices", BTList).apply(); }
     public Set<String> getBTDevicesList() { return prefs.getStringSet("SelectedBTDevices",null); }

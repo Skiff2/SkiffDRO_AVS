@@ -14,6 +14,18 @@
         android:layout_height="match_parent"
         tools:context=".common.SettsActivity">
 
+        <CheckBox
+            android:id="@+id/chUseUSB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{Sets.getUseUSB()}"
+            android:onCheckedChanged="@{(v, c) -> Sets.setUseUSB(c)}"
+            android:paddingEnd="15dp"
+            android:text="Разрешить использование USB"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chShow4LatheTool" />
+
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
@@ -56,34 +68,27 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="5dp"
-            android:text="Показывать устройства:"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/llOpt" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="2dp"
-            tools:layout_editor_absoluteY="435dp">
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <Button
             android:id="@+id/cmdSelDevices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
             android:text="Выбрать BT устройства для отображения"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintTop_toBottomOf="@+id/llOpt" />
+
+        <CheckBox
+            android:id="@+id/chShow4LatheTool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="15dp"
+            android:textSize="16sp"
+            android:onCheckedChanged="@{(v, c) -> Sets.setShow4tool(c)}"
+            android:checked="@{Sets.getShow4tool()}"
+            android:text="Показывать 4 инструмента в токарном"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cmdSelDevices" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

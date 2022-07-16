@@ -1,4 +1,4 @@
-package com.home.skiffdro.common;
+package com.home.skiffdro.common.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -15,7 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.home.skiffdro.R;
-import com.home.skiffdro.models.ItemModel;
+import com.home.skiffdro.common.Utils;
 import com.home.skiffdro.models.MarkModel;
 
 import java.util.List;

@@ -1,7 +1,6 @@
-package com.home.skiffdro.common;
+package com.home.skiffdro.common.dialogs;
 
 import android.content.Context;
-import android.content.DialogInterface;
 
 import androidx.appcompat.app.AlertDialog;
 

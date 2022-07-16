@@ -1,4 +1,4 @@
-package com.home.skiffdro.common;
+package com.home.skiffdro.common.connections;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -14,26 +14,47 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BT {
+public class BT implements IConnection {
     private static final int REQUEST_ENABLE_BT = 0;
     private String MacScales = "";
     public BluetoothAdapter btAdapter;
 
     private String BTStatus;
-    public String getBTStatus() {return BTStatus;}
-
     private boolean isConnected;
+
+    //Коннектимся к указанному устройству
+    public static BT getInstance(String MAC) {
+        if (BT.instance == null) {
+            BT.instance = new BT();
+        }
+        if (MAC != null)
+            BT.instance.Connect(MAC);
+        return BT.instance;
+    }
+
+    //Получаем или инитим пустой инстанс
+    public static BT getInstance() {
+        if (BT.instance == null) {
+            BT.instance = new BT();
+        }
+        return BT.instance;
+    }
+
+    @Override
     public boolean getIsConnected() {return isConnected; }
 
     private float valX;
     private float valY;
     private float valZ;
     private DeviceType deviceType = DeviceType.None;
+    @Override
     public float getValX() {return valX; }
+    @Override
     public float getValY() {return valY; }
+    @Override
     public float getValZ() {return valZ; }
 
-    public enum DeviceType { Milling, Lathe, None }
+    @Override
     public DeviceType getDeviceType() { return deviceType; }
 
     public String Delim = null;
@@ -43,26 +64,9 @@ public class BT {
 
     private Timer timerReconnect;
 
-    private List<BTEvent> listeners = new ArrayList<>();
+    private List<ConnectionEvent> listeners = new ArrayList<>();
 
     private static BT instance;
-
-    //Коннектимся к указанному устройству
-    public static synchronized BT getInstance(String MAC) {
-        if (instance == null) {
-            instance = new BT();
-        }
-        if (MAC != null)
-            instance.Connect(MAC);
-        return instance;
-    }
-    //Получаем или инитим пустой инстанс
-    public static synchronized BT getInstance() {
-        if (instance == null) {
-            instance = new BT();
-        }
-        return instance;
-    }
 
     public BT(){}
 
@@ -81,7 +85,7 @@ public class BT {
         }
 
 
-        //Таймер проверки активности весов
+        //Таймер проверки активности
         timerReconnect = new Timer();
         TimerTask timerTaskScales = new TimerTask() {
 
@@ -107,15 +111,21 @@ public class BT {
     }
 
     //Накручиваем подписоту =)
-    public void addListener(BTEvent toAdd) {
+    @Override
+    public void addListener(ConnectionEvent toAdd) {
         listeners.add(toAdd);
     }
 
+    @Override
+    public String getBTStatus() {
+        return BTStatus;
+    }
+
     //Раскидывем данные заинтересованным
-    public void RefreshListeners() {
-        for (BTEvent hl : listeners) {
+    void RefreshData() {
+        for (ConnectionEvent hl : listeners) {
             try {
-                hl.RefreshBTData();
+                hl.RefreshData();
             }
             catch(Exception ex) {
                 listeners.remove(hl);  //Скажем "Нет" некромантии!!
@@ -124,6 +134,7 @@ public class BT {
         }
     }
 
+    @Override
     public void cancel(){
         ThConnectBT.cancel();
         ThConnectBT = null;
@@ -158,7 +169,7 @@ public class BT {
             } catch (IOException e) {
                 e.printStackTrace();
                 isConnected = false;
-                RefreshListeners();
+                RefreshData();
                 try {
                     bluetoothSocket.close();
                 } catch (IOException e1) {
@@ -168,7 +179,7 @@ public class BT {
 
             if (success) {  // Если законнектились, тогда запускаем поток приёма и отправки данных
                 isConnected = true;
-                RefreshListeners();
+                RefreshData();
                 thScales = new ThreadConnected(bluetoothSocket);
                 thScales.start(); // запуск потока приёма и отправки данных
             }
@@ -235,19 +246,20 @@ public class BT {
                             String[] ret = sbprint.split(Delim);
                             valX = Float.parseFloat(ret[0]) / 100;
                             valY = Float.parseFloat(ret[1]) / 200;
-                            RefreshListeners();
+                            BTStatus = sbprint + "-" + ret[0] + "-" + ret[1] + '+';
+                            RefreshData();
                         }
                         if (deviceType == DeviceType.Milling) {
                             String[] ret = sbprint.split(Delim);
                             valX = Float.parseFloat(ret[0]) / 200;
                             valY = Float.parseFloat(ret[1]) / 200;
                             valZ = Float.parseFloat(ret[2]) / 200;
-                            RefreshListeners();
+                            RefreshData();
                         }
                     }
                 } catch (IOException e) {
                     isConnected = false;
-                    RefreshListeners();
+                    RefreshData();
                     break;
                 }
             }

@@ -1,4 +1,4 @@
-package com.home.skiffdro.common;
+package com.home.skiffdro.common.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.home.skiffdro.R;
+import com.home.skiffdro.common.Utils;
 import com.home.skiffdro.models.ItemModel;
 
 import java.util.List;

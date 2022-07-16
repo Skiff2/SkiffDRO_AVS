@@ -1,4 +1,4 @@
-package com.home.skiffdro.common;
+package com.home.skiffdro.models;
 
 public class LatheTool {
     public double ScalesOffsetX = 0; //Значение локального обнуления

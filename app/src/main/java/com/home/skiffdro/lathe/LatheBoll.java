@@ -3,40 +3,26 @@ package com.home.skiffdro.lathe;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.home.skiffdro.MainActivity;
-import com.home.skiffdro.common.BT;
-import com.home.skiffdro.common.BTEvent;
+import com.home.skiffdro.common.connections.BT;
+import com.home.skiffdro.common.connections.ConnectionEvent;
 import com.home.skiffdro.R;
-import com.home.skiffdro.common.CenterSmoothScroller;
-import com.home.skiffdro.common.ItemAdapter;
+import com.home.skiffdro.common.adapters.CenterSmoothScroller;
+import com.home.skiffdro.common.adapters.ItemAdapter;
 import com.home.skiffdro.common.Utils;
 import com.home.skiffdro.fragments.MiniLathe;
-import com.home.skiffdro.fragments.MiniMilling;
 import com.home.skiffdro.models.ItemModel;
 
 import java.util.ArrayList;
 
-public class LatheBoll extends AppCompatActivity implements BTEvent, TextWatcher {
+public class LatheBoll extends AppCompatActivity implements ConnectionEvent, TextWatcher {
     ArrayList<ItemModel> states = new ArrayList<>();
     RecyclerView recyclerView;
     MiniLathe display;
@@ -86,7 +72,7 @@ public class LatheBoll extends AppCompatActivity implements BTEvent, TextWatcher
     }
 
     @Override
-    public void RefreshBTData() {
+    public void RefreshData() {
         try {
             if (states.size() > 0) {
                 for (int i = 0; i < states.size(); i++) {

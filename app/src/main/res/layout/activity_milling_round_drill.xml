@@ -6,33 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".milling.MillingRoundDrill">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-    <fragment
-        android:id="@+id/fragmentMiniCoordinate"
-        android:name="com.home.skiffdro.fragments.MiniMilling"
+    <LinearLayout
+        android:id="@+id/mfrLandscape"
+        android:layout_width="0dp"
+        android:layout_weight=".45"
+        android:background="#E0FFFF"
+        android:paddingStart="15dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"/>
+
+    <LinearLayout
+        android:id="@+id/llMarks"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".55"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/mfrPortret"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
+        android:orientation="vertical"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txtInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Отверстий: 0  По радиусу: 00.0"
-        android:textSize="22dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentMiniCoordinate"/>
+            <TextView
+                android:id="@+id/txtInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отверстий: 0  По радиусу: 00.0"
+                android:textSize="22dp"
+                android:paddingBottom="10dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInfo" />
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

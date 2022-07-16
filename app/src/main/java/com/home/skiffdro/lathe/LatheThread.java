@@ -17,20 +17,19 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 
-import com.home.skiffdro.common.BT;
-import com.home.skiffdro.common.BTEvent;
+import com.home.skiffdro.common.connections.BT;
+import com.home.skiffdro.common.connections.ConnectionEvent;
 import com.home.skiffdro.R;
-import com.home.skiffdro.common.CenterSmoothScroller;
-import com.home.skiffdro.common.ItemAdapter;
+import com.home.skiffdro.common.adapters.CenterSmoothScroller;
+import com.home.skiffdro.common.adapters.ItemAdapter;
 import com.home.skiffdro.common.Utils;
 import com.home.skiffdro.databinding.ActivityLatheThreadBinding;
 import com.home.skiffdro.fragments.MiniLathe;
 import com.home.skiffdro.models.ItemModel;
-import com.home.skiffdro.models.ModelLathe;
 
 import java.util.ArrayList;
 
-public class LatheThread extends AppCompatActivity implements BTEvent {
+public class LatheThread extends AppCompatActivity implements ConnectionEvent {
     private class DeepVal
     {
         public DeepVal(int npp, double val)
@@ -95,7 +94,7 @@ public class LatheThread extends AppCompatActivity implements BTEvent {
         context = this;
 
         SelThread();
-        RefreshBTData();
+        RefreshData();
         ResetVals();
     }
 
@@ -599,7 +598,7 @@ public class LatheThread extends AppCompatActivity implements BTEvent {
     }
 
     @Override
-    public void RefreshBTData() {
+    public void RefreshData() {
         boolean Focused = false;
         double X = 0;
         try {

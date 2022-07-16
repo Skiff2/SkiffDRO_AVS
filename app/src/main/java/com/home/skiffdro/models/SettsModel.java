@@ -42,6 +42,18 @@ public class SettsModel  extends BaseObservable {
         notifyPropertyChanged(BR._all);
     }
 
+    public void setShow4tool(boolean Checked) {
+        s.setIsShow4LatheTool(Checked);
+        notifyPropertyChanged(BR._all);
+    }
+    @Bindable
+    public boolean getShow4tool(){return s.getIsShow4LatheTool();}
 
 
+    public void setUseUSB(boolean Checked) {
+        s.setIsUseUSB(Checked);
+        notifyPropertyChanged(BR._all);
+    }
+    @Bindable
+    public boolean getUseUSB(){return s.getIsUseUSB();}
 }

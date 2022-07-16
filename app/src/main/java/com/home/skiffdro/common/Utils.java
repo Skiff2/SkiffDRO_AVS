@@ -2,6 +2,8 @@ package com.home.skiffdro.common;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.home.skiffdro.common.adapters.CenterSmoothScroller;
+
 import java.text.DecimalFormat;
 
 public final class Utils {

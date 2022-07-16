@@ -75,11 +75,4 @@ public class SettsActivity extends AppCompatActivity {
 
         dialog.show();
     }
-
-    private void SaveBTDevices(ArrayAdapter<String> arrayAdapter)
-    {
-        for (String s: arrayAdapter.getContext().fileList()) {
-
-        }
-    }
 }

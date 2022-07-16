@@ -5,12 +5,7 @@ import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
-import com.home.skiffdro.R;
-import com.home.skiffdro.common.LatheTool;
 import com.home.skiffdro.common.Utils;
-
-import java.io.Serializable;
-import java.sql.Struct;
 
 public class ModelLathe {
 

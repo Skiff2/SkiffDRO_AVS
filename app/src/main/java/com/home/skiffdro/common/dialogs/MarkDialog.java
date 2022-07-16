@@ -1,4 +1,4 @@
-package com.home.skiffdro.common;
+package com.home.skiffdro.common.dialogs;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.home.skiffdro.MainActivity;
 import com.home.skiffdro.R;
+import com.home.skiffdro.common.Utils;
 import com.home.skiffdro.fragments.LatheMain;
 import com.home.skiffdro.fragments.MillingMain;
 import com.home.skiffdro.fragments.MiniMilling;

@@ -1,4 +1,4 @@
-package com.home.skiffdro.common;
+package com.home.skiffdro.common.adapters;
 
 
 import android.content.Context;

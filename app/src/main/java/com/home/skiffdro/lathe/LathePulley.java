@@ -6,31 +6,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.home.skiffdro.common.BT;
-import com.home.skiffdro.common.BTEvent;
+import com.home.skiffdro.common.connections.BT;
+import com.home.skiffdro.common.connections.ConnectionEvent;
 import com.home.skiffdro.R;
-import com.home.skiffdro.common.CenterSmoothScroller;
-import com.home.skiffdro.common.ItemAdapter;
+import com.home.skiffdro.common.adapters.CenterSmoothScroller;
+import com.home.skiffdro.common.adapters.ItemAdapter;
 import com.home.skiffdro.common.Utils;
 import com.home.skiffdro.fragments.MiniLathe;
-import com.home.skiffdro.milling.MillingRoundDrill;
 import com.home.skiffdro.models.ItemModel;
 
 import java.util.ArrayList;
 
-public class LathePulley extends AppCompatActivity implements BTEvent {
+public class LathePulley extends AppCompatActivity implements ConnectionEvent {
     private class Profile
     {
         public String Name;
@@ -173,7 +165,7 @@ public class LathePulley extends AppCompatActivity implements BTEvent {
     }
 
     @Override
-    public void RefreshBTData() {
+    public void RefreshData() {
         try {
             for (int i = 0; i < states.size(); i++) {
                 ItemModel m = states.get(i);

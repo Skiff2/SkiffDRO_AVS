@@ -12,14 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.home.skiffdro.R;
-import com.home.skiffdro.common.BT;
-import com.home.skiffdro.common.BTEvent;
+import com.home.skiffdro.common.connections.BT;
+import com.home.skiffdro.common.connections.Connection;
+import com.home.skiffdro.common.connections.ConnectionEvent;
+import com.home.skiffdro.common.connections.IConnection;
 import com.home.skiffdro.databinding.FragmentMillingMainBinding;
 import com.home.skiffdro.models.ModelMilling;
 
-public class MillingMain extends Fragment implements BTEvent {
+public class MillingMain extends Fragment implements ConnectionEvent {
     FragmentMillingMainBinding binding;
-    BT con = null;
+    IConnection con = null;
 
     public MillingMain() {
     }
@@ -43,12 +45,12 @@ public class MillingMain extends Fragment implements BTEvent {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        con = BT.getInstance();
+        con = (IConnection)Connection.getInstance();
         con.addListener(MillingMain.this);
     }
 
     @Override
-    public void RefreshBTData() {
+    public void RefreshData() {
         ModelMilling m = binding.getMMilling();
 
         m.setScalesValX(con.getValX());

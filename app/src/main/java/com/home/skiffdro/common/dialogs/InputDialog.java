@@ -1,4 +1,4 @@
-package com.home.skiffdro.common;
+package com.home.skiffdro.common.dialogs;
 
 import android.app.AlertDialog;
 import android.content.Context;

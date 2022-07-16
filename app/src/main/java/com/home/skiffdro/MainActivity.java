@@ -21,21 +21,21 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.home.skiffdro.common.BT;
-import com.home.skiffdro.common.BTEvent;
-import com.home.skiffdro.common.CenterSmoothScroller;
-import com.home.skiffdro.common.ItemAdapter;
-import com.home.skiffdro.common.MarkAdapter;
-import com.home.skiffdro.common.MarkDialog;
+import com.home.skiffdro.common.connections.BT;
+import com.home.skiffdro.common.connections.Connection;
+import com.home.skiffdro.common.connections.IConnection;
+import com.home.skiffdro.common.connections.ConnectionEvent;
+import com.home.skiffdro.common.adapters.CenterSmoothScroller;
+import com.home.skiffdro.common.adapters.MarkAdapter;
+import com.home.skiffdro.common.dialogs.MarkDialog;
 import com.home.skiffdro.common.Notifier;
 import com.home.skiffdro.common.Setts;
 import com.home.skiffdro.common.SettsActivity;
+import com.home.skiffdro.common.connections.USB;
 import com.home.skiffdro.common.Utils;
-import com.home.skiffdro.common.YesNoDialog;
-import com.home.skiffdro.databinding.FragmentLatheMainBinding;
+import com.home.skiffdro.common.dialogs.YesNoDialog;
 import com.home.skiffdro.fragments.LatheMain;
 import com.home.skiffdro.fragments.MillingMain;
 import com.home.skiffdro.lathe.LatheAngleMeter;
@@ -43,14 +43,14 @@ import com.home.skiffdro.lathe.LatheBoll;
 import com.home.skiffdro.lathe.LathePulley;
 import com.home.skiffdro.lathe.LatheThread;
 import com.home.skiffdro.milling.MillingRoundDrill;
-import com.home.skiffdro.models.ItemModel;
 import com.home.skiffdro.models.MarkModel;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements BTEvent {
-    BT con = null;
+public class MainActivity extends AppCompatActivity implements ConnectionEvent {
+    Connection con = null;
+
     String DeviceMAC = "";
     String DeviceName;
 
@@ -83,34 +83,51 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
             ((LinearLayout) findViewById(R.id.llMarks)).setWeightSum(1);
             ((LinearLayout) findViewById(R.id.frLandscape)).setVisibility(View.GONE);
         }
-        //А блютус то есть? А включен?
-        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (btAdapter != null) {
-            if (!btAdapter.isEnabled()) {
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, 0); //REQUEST_ENABLE_BT
-            }
-        } else {
-            finish();
-            return;
-        }
 
-        if (savedInstanceState != null && savedInstanceState.containsKey("DeviceMAC")) {
-            DeviceMAC = savedInstanceState.getString("DeviceMAC");
-            con = BT.getInstance(DeviceMAC);
+        USB usb = USB.getInstance(this);
+
+        if (usb.getIsConnected() && sets.getIsUseUSB())
+        {
+            Toast.makeText(MainActivity.this, "Найдено подключение по USB!", Toast.LENGTH_LONG).show();
+            DeviceName = "USB";
+            usb.addListener(this);
+            con = Connection.Init();
+            con.setInstance(usb);
         }
         else
-            SelBTDevice();
+        {
+            //А блютус то есть? А включен?
+            BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+            if (btAdapter != null) {
+                if (!btAdapter.isEnabled()) {
+                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableBtIntent, 0); //REQUEST_ENABLE_BT
+                }
+            } else {
+                finish();
+                return;
+            }
 
-        Button cmdAddMark = (Button) findViewById(R.id.cmdAddMarks);
-        Button cmdResetMarks = (Button) findViewById(R.id.cmdResetMarks);
+            if (savedInstanceState != null && savedInstanceState.containsKey("DeviceMAC")) {
+                DeviceMAC = savedInstanceState.getString("DeviceMAC");
+                con = Connection.Init();
+                con.setInstance(BT.getInstance(DeviceMAC));
+            } else
+                SelBTDevice();
+        }
+
+        Button cmdAddMark = findViewById(R.id.cmdAddMarks);
+        Button cmdResetMarks = findViewById(R.id.cmdResetMarks);
 
         //Добавление метки
         cmdAddMark.setOnClickListener(v -> new MarkDialog(new MarkDialog.DialogEvent() {
             @Override
             public void DialogOK(MarkModel m) {
-                Marks.add(m);
-                adapter.notifyDataSetChanged();
+                try {
+                    Marks.add(m);
+                    adapter.notifyDataSetChanged();
+                }
+                catch (Exception ex){}
             }
 
             @Override
@@ -121,8 +138,10 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
         cmdResetMarks.setOnClickListener(v -> new YesNoDialog(new YesNoDialog.DialogEvent() {
             @Override
             public void DialogYes() {
-                Marks.clear();
-                adapter.notifyDataSetChanged();
+                try {Marks.clear();
+                    adapter.notifyDataSetChanged();
+                }
+                catch (Exception ex){}
             }
 
             @Override
@@ -139,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        new MenuInflater(this).inflate(R.menu.lathe_menu, menu);
+        new MenuInflater(this).inflate(R.menu.def_menu, menu);
         return(super.onCreateOptionsMenu(menu));
     }
 
@@ -222,10 +241,11 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
     }
 
     @Override
-    public void RefreshBTData() {
+    public void RefreshData() {
         runOnUiThread(() -> {
             if (con.getIsConnected() && con.getDeviceType() != BT.DeviceType.None ) {
                 setTitle("Подключено: " + (con.getDeviceType() == BT.DeviceType.Lathe?"Токарный":"Фрезерный") + " " + DeviceName);
+                //setTitle(con.getBTStatus());
 
                 if (CurrDisplay == null) {
                     if (IsPortret)
@@ -239,6 +259,8 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
                     if (con.getDeviceType() == BT.DeviceType.Lathe) PrepareAsLathe();
                     if (con.getDeviceType() == BT.DeviceType.Milling) PrepareAsMilling();
 
+                    findViewById(R.id.cmdAddMarks).setEnabled(true);
+                    findViewById(R.id.cmdResetMarks).setEnabled(true);
                     IsInitialized = true;
                 }
                 else
@@ -311,11 +333,11 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
     {
         if (IsPortret)
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frPortret, CurrDisplay, null)
+                    .add(R.id.frPortret, LatheMain.class, null)
                     .commit();
         else
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frLandscape, CurrDisplay, null)
+                    .add(R.id.frLandscape, LatheMain.class, null)
                     .commit();
     }
 
@@ -358,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
 
         builderSingle.setNegativeButton("Отмена", (dialog, which) -> {
             dialog.dismiss();
-            finish();
+//            finish();
         });
 
         builderSingle.setAdapter(arrayAdapter, (dialog, which) -> {
@@ -372,7 +394,8 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
         DeviceName = strName.substring(0, strName.length() - 18);
         Toast.makeText(MainActivity.this, "Подключаюсь к " + DeviceName, Toast.LENGTH_SHORT).show();
         DeviceMAC = strName.substring(strName.length() - 17); // Вычленяем MAC-адрес
-        con = BT.getInstance(DeviceMAC); // new BT();
+        con = Connection.Init();
+        con.setInstance(BT.getInstance(DeviceMAC)); // new BT();
         con.addListener(MainActivity.this);
     }
 
@@ -382,7 +405,6 @@ public class MainActivity extends AppCompatActivity implements BTEvent {
         super.onDestroy();
         con.cancel();
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

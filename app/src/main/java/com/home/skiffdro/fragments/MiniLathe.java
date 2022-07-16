@@ -11,15 +11,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.home.skiffdro.R;
-import com.home.skiffdro.common.BT;
-import com.home.skiffdro.common.BTEvent;
+import com.home.skiffdro.common.connections.BT;
+import com.home.skiffdro.common.connections.Connection;
+import com.home.skiffdro.common.connections.ConnectionEvent;
+import com.home.skiffdro.common.connections.IConnection;
 import com.home.skiffdro.databinding.FragmentMiniLatheBinding;
 import com.home.skiffdro.models.ModelLathe;
-import com.home.skiffdro.models.ModelMilling;
 
-public class MiniLathe extends Fragment  implements BTEvent {
+public class MiniLathe extends Fragment  implements ConnectionEvent {
     FragmentMiniLatheBinding binding;
-    BT con = null;
+    IConnection con = null;
 
     public MiniLathe() {   }
 
@@ -30,7 +31,7 @@ public class MiniLathe extends Fragment  implements BTEvent {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        con = BT.getInstance();
+        con = (IConnection) Connection.getInstance();
         con.addListener(MiniLathe.this);
 
         ModelLathe m = binding.getMMiniLathe();
@@ -49,7 +50,7 @@ public class MiniLathe extends Fragment  implements BTEvent {
     }
 
     @Override
-    public void RefreshBTData() {
+    public void RefreshData() {
         ModelLathe m = binding.getMMiniLathe();
         m.setScalesValX((double)con.getValX());
         m.setScalesValZ((double)con.getValY()); ///эээ...эээ... так надо )))
