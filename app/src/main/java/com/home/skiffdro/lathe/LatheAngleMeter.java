@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.home.skiffdro.R;
+import com.home.skiffdro.common.Setts;
 
 public class LatheAngleMeter extends AppCompatActivity {
 
@@ -14,6 +15,10 @@ public class LatheAngleMeter extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lathe_angle_meter);
+
+        Setts sets = Setts.getInstance();
+        if (sets.getIsUseFullScreen())
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

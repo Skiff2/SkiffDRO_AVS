@@ -45,6 +45,10 @@ public class MillingRoundDrill extends AppCompatActivity implements ConnectionEv
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        Setts sets = Setts.getInstance();
+        if (sets.getIsUseFullScreen())
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         InitDispaly();
 
         con = BT.getInstance();

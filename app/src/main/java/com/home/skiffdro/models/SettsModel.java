@@ -56,4 +56,11 @@ public class SettsModel  extends BaseObservable {
     }
     @Bindable
     public boolean getUseUSB(){return s.getIsUseUSB();}
+
+    public void setUseFullScreen(boolean Checked) {
+        s.setIsUseFullScreen(Checked);
+        notifyPropertyChanged(BR._all);
+    }
+    @Bindable
+    public boolean getUseFullScreen(){return s.getIsUseFullScreen();}
 }

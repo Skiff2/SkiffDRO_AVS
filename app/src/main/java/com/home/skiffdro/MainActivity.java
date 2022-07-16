@@ -84,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
             ((LinearLayout) findViewById(R.id.frLandscape)).setVisibility(View.GONE);
         }
 
+        if (sets.getIsUseFullScreen())
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         USB usb = USB.getInstance(this);
 
         if (usb.getIsConnected() && sets.getIsUseUSB())

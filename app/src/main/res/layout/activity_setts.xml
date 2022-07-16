@@ -15,6 +15,18 @@
         tools:context=".common.SettsActivity">
 
         <CheckBox
+            android:id="@+id/chUseFullScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{Sets.getUseFullScreen()}"
+            android:onCheckedChanged="@{(v, c) -> Sets.setUseFullScreen(c)}"
+            android:paddingEnd="15dp"
+            android:text="Разворачиваться на полный экран"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chUseUSB" />
+
+        <CheckBox
             android:id="@+id/chUseUSB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

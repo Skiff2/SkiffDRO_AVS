@@ -37,6 +37,10 @@ public class Setts {
     public boolean getIsUseUSB() {return prefs.getBoolean("IsUseUSB", true);  }
     public void setIsUseUSB(boolean val) { prefs.edit().putBoolean("IsUseUSB", val).apply(); }
 
+    //Разворачиваться на весь экран
+    public boolean getIsUseFullScreen() {return prefs.getBoolean("IsUseFullScreen", false);  }
+    public void setIsUseFullScreen(boolean val) { prefs.edit().putBoolean("IsUseFullScreen", val).apply(); }
+
     //Список БТ устройств для выбора
     public void setBTDevicesList (Set<String> BTList) {prefs.edit().putStringSet("SelectedBTDevices", BTList).apply(); }
     public Set<String> getBTDevicesList() { return prefs.getStringSet("SelectedBTDevices",null); }

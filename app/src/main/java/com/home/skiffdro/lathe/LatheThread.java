@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 
+import com.home.skiffdro.common.Setts;
 import com.home.skiffdro.common.connections.BT;
 import com.home.skiffdro.common.connections.ConnectionEvent;
 import com.home.skiffdro.R;
@@ -79,6 +80,10 @@ public class LatheThread extends AppCompatActivity implements ConnectionEvent {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        Setts sets = Setts.getInstance();
+        if (sets.getIsUseFullScreen())
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Bundle arguments = getIntent().getExtras();
         display = (MiniLathe) getSupportFragmentManager().findFragmentById(R.id.fragmentDisplay);
