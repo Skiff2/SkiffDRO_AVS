@@ -63,4 +63,11 @@ public class SettsModel  extends BaseObservable {
     }
     @Bindable
     public boolean getUseFullScreen(){return s.getIsUseFullScreen();}
+
+    public void setUseAutostart(boolean Checked) {
+        s.setIsAutostart(Checked);
+        notifyPropertyChanged(BR._all);
+    }
+    @Bindable
+    public boolean getUseAutostart(){return s.getIsAutostart();}
 }

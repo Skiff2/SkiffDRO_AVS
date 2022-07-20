@@ -15,6 +15,18 @@
         tools:context=".common.SettsActivity">
 
         <CheckBox
+            android:id="@+id/chAutosart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{Sets.getUseAutostart()}"
+            android:onCheckedChanged="@{(v, c) -> Sets.setUseAutostart(c)}"
+            android:paddingEnd="15dp"
+            android:text="Автозапуск"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chUseFullScreen" />
+
+        <CheckBox
             android:id="@+id/chUseFullScreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +96,7 @@
             android:id="@+id/cmdSelDevices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginTop="10dp"
             android:text="Выбрать BT устройства для отображения"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llOpt" />
@@ -93,6 +105,7 @@
             android:id="@+id/chShow4LatheTool"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:paddingEnd="15dp"
             android:textSize="16sp"
             android:onCheckedChanged="@{(v, c) -> Sets.setShow4tool(c)}"

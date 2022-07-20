@@ -41,6 +41,10 @@ public class Setts {
     public boolean getIsUseFullScreen() {return prefs.getBoolean("IsUseFullScreen", false);  }
     public void setIsUseFullScreen(boolean val) { prefs.edit().putBoolean("IsUseFullScreen", val).apply(); }
 
+    //Автозапуск
+    public boolean getIsAutostart() {return prefs.getBoolean("IsAutostart", false);  }
+    public void setIsAutostart(boolean val) { prefs.edit().putBoolean("IsAutostart", val).apply(); }
+
     //Список БТ устройств для выбора
     public void setBTDevicesList (Set<String> BTList) {prefs.edit().putStringSet("SelectedBTDevices", BTList).apply(); }
     public Set<String> getBTDevicesList() { return prefs.getStringSet("SelectedBTDevices",null); }
