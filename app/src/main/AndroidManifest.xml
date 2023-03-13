@@ -34,7 +34,8 @@
         <activity
             android:name=".milling.MillingRoundDrill"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:directBootAware="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

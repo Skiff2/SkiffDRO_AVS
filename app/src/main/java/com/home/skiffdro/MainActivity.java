@@ -47,6 +47,8 @@ import com.home.skiffdro.models.MarkModel;
 
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements ConnectionEvent {
     Connection con = null;
@@ -64,14 +66,24 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
 
     MediaPlayer MarkBell;
 
+    Timer TimerUSBConnectCheck = new Timer();
+    private USB usb = null;
+    AlertDialog BTSelectDialog = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Setts sets = Setts.getInstance(getApplicationContext());
         IsPortret = sets.getIsPortret();
 
+        TimerUSBConnectCheck.schedule(new TimerTask() {
+            public void run() {
+                timerUSBConnectionTick();
+            }
+        }, 3000, 5000); // каждые 5 секунд
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
         setContentView(R.layout.activity_main);
 
         MarkBell = MediaPlayer.create(this, R.raw.markbell);
@@ -87,37 +99,30 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
         if (sets.getIsUseFullScreen())
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        USB usb = USB.getInstance(this);
+        if (sets.getIsUseUSB())
+            usb = USB.getInstance(this);
 
-        if (usb.getIsConnected() && sets.getIsUseUSB())
-        {
-            Toast.makeText(MainActivity.this, "Найдено подключение по USB!", Toast.LENGTH_LONG).show();
-            DeviceName = "USB";
-            usb.addListener(this);
-            con = Connection.Init();
-            con.setInstance(usb);
-        }
-        else
-        {
-            //А блютус то есть? А включен?
-            BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-            if (btAdapter != null) {
-                if (!btAdapter.isEnabled()) {
-                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(enableBtIntent, 0); //REQUEST_ENABLE_BT
-                }
-            } else {
-                finish();
-                return;
+       //А блютус то есть? А включен?
+        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (btAdapter != null) {
+            if (!btAdapter.isEnabled()) {
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, 0); //REQUEST_ENABLE_BT
             }
+        } else {
+            finish();
+            return;
+        }
 
-            if (savedInstanceState != null && savedInstanceState.containsKey("DeviceMAC")) {
-                DeviceMAC = savedInstanceState.getString("DeviceMAC");
+        if (savedInstanceState != null && savedInstanceState.containsKey("DeviceMAC")) {
+            DeviceMAC = savedInstanceState.getString("DeviceMAC");
+            if (!DeviceMAC.equals("USB")) {
                 con = Connection.Init();
                 con.setInstance(BT.getInstance(DeviceMAC));
-            } else
-                SelBTDevice();
-        }
+            }
+        } else
+            SelBTDevice();
+
 
         Button cmdAddMark = findViewById(R.id.cmdAddMarks);
         Button cmdResetMarks = findViewById(R.id.cmdResetMarks);
@@ -157,6 +162,23 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
         RecyclerView.SmoothScroller smoothScroller = new CenterSmoothScroller(recyclerView.getContext());
         adapter = new MarkAdapter(this, Marks);
         recyclerView.setAdapter(adapter);
+    }
+
+
+    private void timerUSBConnectionTick() {
+        runOnUiThread(() -> {
+        if (usb == null) {TimerUSBConnectCheck.cancel(); return;}
+        usb = USB.getInstance(this);
+        if (USB.getInstance() != null && usb.getIsConnected())
+        {
+            Toast.makeText(MainActivity.this, "Найдено подключение по USB!", Toast.LENGTH_LONG).show();
+            DeviceName = "USB";
+            usb.addListener(this);
+            con = Connection.Init();
+            con.setInstance(usb);
+            TimerUSBConnectCheck.cancel();
+            if (BTSelectDialog != null) BTSelectDialog.cancel();
+        }});
     }
 
     @Override
@@ -239,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
     }
     @Override
     public void onSaveInstanceState(Bundle saveInstanceState) {
+        if (usb != null) DeviceMAC = "USB";
         saveInstanceState.putString("DeviceMAC", DeviceMAC);
         super.onSaveInstanceState(saveInstanceState);
     }
@@ -259,12 +282,19 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
 
                 if (!IsInitialized)
                 {
-                    if (con.getDeviceType() == BT.DeviceType.Lathe) PrepareAsLathe();
-                    if (con.getDeviceType() == BT.DeviceType.Milling) PrepareAsMilling();
+                    try {
+                        if (con.getDeviceType() != BT.DeviceType.Lathe && con.getDeviceType() != BT.DeviceType.Milling) return;
+                        if (con.getDeviceType() == BT.DeviceType.Lathe) PrepareAsLathe();
+                        if (con.getDeviceType() == BT.DeviceType.Milling) PrepareAsMilling();
 
-                    findViewById(R.id.cmdAddMarks).setEnabled(true);
-                    findViewById(R.id.cmdResetMarks).setEnabled(true);
-                    IsInitialized = true;
+                        findViewById(R.id.cmdAddMarks).setEnabled(true);
+                        findViewById(R.id.cmdResetMarks).setEnabled(true);
+                        IsInitialized = true;
+                    }
+                    catch (Exception ex){
+                        IsInitialized = false;
+                        //Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                 }
                 else
                 {
@@ -374,8 +404,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.select_dialog_singlechoice);
         Set<BluetoothDevice> pairedDevices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
 
-
-
         for (BluetoothDevice device : pairedDevices) { // Добавляем сопряжённые устройства - Имя + MAC-адресс
             if (Sel == null || Sel.size() == 0 || Sel.contains(device.getName() + "\n" + device.getAddress()))
                 arrayAdapter.add(device.getName() + "\n" + device.getAddress());
@@ -389,8 +417,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
         builderSingle.setAdapter(arrayAdapter, (dialog, which) -> {
             String strName = arrayAdapter.getItem(which);
             StartBTConnect(strName);
+            TimerUSBConnectCheck.cancel();
         });
-        builderSingle.show();
+        BTSelectDialog = builderSingle.show();
     }
 
     private void StartBTConnect(@NonNull String strName) {
@@ -406,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
     @Override
     protected void onDestroy() { // Закрытие приложения
         super.onDestroy();
-        con.cancel();
+        if (con != null) con.cancel();
     }
 
     @Override

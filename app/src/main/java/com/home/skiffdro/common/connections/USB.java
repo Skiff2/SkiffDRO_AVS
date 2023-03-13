@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
+import android.widget.Toast;
 
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
 import com.hoho.android.usbserial.util.SerialInputOutputManager;
 import com.home.skiffdro.BuildConfig;
+import com.home.skiffdro.MainActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,10 +40,23 @@ public class USB implements IConnection, SerialInputOutputManager.Listener{
     private String BTStatus;
 
     public static USB getInstance(Context context) {
-        if (USB.instance == null) {
+        //if (USB.instance == null) {
+        try {
+            if (USB.instance != null) {
+                USB.instance.disconnect();
+                USB.instance = null;
+            }
+        }catch (Exception ex) {}
+        try {
             USB.instance = new USB();
             instance.Connect(context);
         }
+        catch (Exception ex)
+        {
+            USB.instance = null;
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        //}
         return USB.instance;
     }
 

@@ -7,7 +7,7 @@ android {
         minSdkVersion 17
         targetSdk 17
         versionCode 1
-        versionName "2.1"
+        versionName "2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         archivesBaseName = "SkiffDRO" + versionName
     }

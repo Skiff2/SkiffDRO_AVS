@@ -136,9 +136,11 @@ public class BT implements IConnection {
 
     @Override
     public void cancel(){
-        ThConnectBT.cancel();
-        ThConnectBT = null;
-        thScales = null;
+        if (ThConnectBT != null) {
+            ThConnectBT.cancel();
+            ThConnectBT = null;
+            thScales = null;
+        }
     }
 
     class BTConnect extends Thread { // Поток для коннекта с Bluetooth
