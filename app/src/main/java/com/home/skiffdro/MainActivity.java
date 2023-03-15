@@ -31,7 +31,6 @@ import com.home.skiffdro.common.adapters.CenterSmoothScroller;
 import com.home.skiffdro.common.adapters.MarkAdapter;
 import com.home.skiffdro.common.dialogs.MarkDialog;
 import com.home.skiffdro.common.Notifier;
-import com.home.skiffdro.common.Setts;
 import com.home.skiffdro.common.SettsActivity;
 import com.home.skiffdro.common.connections.USB;
 import com.home.skiffdro.common.Utils;
@@ -44,6 +43,7 @@ import com.home.skiffdro.lathe.LathePulley;
 import com.home.skiffdro.lathe.LatheThread;
 import com.home.skiffdro.milling.MillingRoundDrill;
 import com.home.skiffdro.models.MarkModel;
+import com.home.skiffdro.models.Setts;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Setts sets = Setts.getInstance(getApplicationContext());
-        IsPortret = sets.getIsPortret();
+        if (Setts.instance == null) new Setts(this);
+        IsPortret = Setts.instance.getIsPortret();
 
         TimerUSBConnectCheck.schedule(new TimerTask() {
             public void run() {
@@ -96,10 +96,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
             ((LinearLayout) findViewById(R.id.frLandscape)).setVisibility(View.GONE);
         }
 
-        if (sets.getIsUseFullScreen())
+        if (Setts.instance.getIsUseFullScreen())
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        if (sets.getIsUseUSB())
+        if (Setts.instance.getIsUseUSB())
             usb = USB.getInstance(this);
 
        //А блютус то есть? А включен?
@@ -390,8 +390,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionEvent {
 
     private void SelBTDevice() { // Создание списка сопряжённых Bluetooth-устройств
 
-        Setts s = Setts.getInstance();
-        Set<String> Sel = s.getBTDevicesList();
+        Set<String> Sel = Setts.instance.getBTDevicesList();
 
         if (Sel != null && Sel.size() == 1){
             StartBTConnect(Sel.iterator().next());

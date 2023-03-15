@@ -10,6 +10,8 @@ public class Setts {
     private static SharedPreferences prefs;
     public static Setts instance;
 
+    public Setts(){}
+
     //для первой инициализации
     public Setts(Context context)
     {
@@ -62,17 +64,17 @@ public class Setts {
     public void setLatheAxisNameL(String val) { prefs.edit().putString("LatheAxisNameL", val).apply(); }
 
 
-    public int getLatheAxisBigNameSize() {return prefs.getInt("LatheAxisBigNameSize", 42);  }
-    public void setLatheAxisBigNameSize(int val) { prefs.edit().putInt("LatheAxisBigNameSize", val).apply(); }
+    public String getLatheAxisBigNameSize() {return prefs.getString("LatheAxisBigNameSize", "42");  }
+    public void setLatheAxisBigNameSize(String val) { prefs.edit().putString("LatheAxisBigNameSize", val).apply(); }
 
-    public int getLatheAxisBigValueSize() {return prefs.getInt("LatheAxisBigValueSize", 70);  }
-    public void setLatheAxisBigValueSize(int val) { prefs.edit().putInt("LatheAxisBigValueSize", val).apply(); }
+    public String getLatheAxisBigValueSize() {return prefs.getString("LatheAxisBigValueSize", "70");  }
+    public void setLatheAxisBigValueSize(String val) { prefs.edit().putString("LatheAxisBigValueSize", val).apply(); }
 
-    public int getLatheAxisSmallNameSize() {return prefs.getInt("LatheAxisSmallNameSize", 30);  }
-    public void setLatheAxisSmallNameSize(int val) { prefs.edit().putInt("LatheAxisSmallNameSize", val).apply(); }
+    public String getLatheAxisSmallNameSize() {return prefs.getString("LatheAxisSmallNameSize", "30");  }
+    public void setLatheAxisSmallNameSize(String val) { prefs.edit().putString("LatheAxisSmallNameSize", val).apply(); }
 
-    public int getLatheAxisSmallValueSize() {return prefs.getInt("LatheAxisSmallValueSize", 33);  }
-    public void setLatheAxisSmallValueSize(int val) { prefs.edit().putInt("LatheAxisSmallValueSize", val).apply(); }
+    public String getLatheAxisSmallValueSize() {return prefs.getString("LatheAxisSmallValueSize", "33");  }
+    public void setLatheAxisSmallValueSize(String val) { prefs.edit().putString("LatheAxisSmallValueSize", val).apply(); }
 
     //Оси фрезерного
     public String getMillingAxisNameX() {return prefs.getString("MillingAxisNameX", "X");  }
@@ -85,20 +87,17 @@ public class Setts {
     public void setMillingAxisNameZ(String val) { prefs.edit().putString("MillingAxisNameZ", val).apply(); }
 
 
-    public int getMillingAxisBigNameSize() {return prefs.getInt("MillingAxisBigNameSize", 42);  }
-    public void setMillingAxisBigNameSize(int val) { prefs.edit().putInt("MillingAxisBigNameSize", val).apply(); }
+    public String getMillingAxisBigNameSize() {return prefs.getString("MillingAxisBigNameSize", "42");  }
+    public void setMillingAxisBigNameSize(String val) { prefs.edit().putString("MillingAxisBigNameSize", val).apply(); }
 
-    public int getMillingAxisBigValueSize() {return prefs.getInt("MillingAxisBigValueSize", 70);  }
-    public void setMillingAxisBigValueSize(int val) { prefs.edit().putInt("MillingAxisBigValueSize", val).apply(); }
+    public String getMillingAxisBigValueSize() {return prefs.getString("MillingAxisBigValueSize", "70");  }
+    public void setMillingAxisBigValueSize(String val) { prefs.edit().putString("MillingAxisBigValueSize", val).apply(); }
 
-    public int getMillingAxisSmallNameSize() {return prefs.getInt("MillingAxisSmallNameSize", 30);  }
-    public void setMillingAxisSmallNameSize(int val) { prefs.edit().putInt("MillingAxisSmallNameSize", val).apply(); }
+    public String getMillingAxisSmallNameSize() {return prefs.getString("MillingAxisSmallNameSize", "30");  }
+    public void setMillingAxisSmallNameSize(String val) { prefs.edit().putString("MillingAxisSmallNameSize", val).apply(); }
 
-    public int getMillingAxisSmallValueSize() {return prefs.getInt("MillingAxisSmallValueSize", 33);  }
-    public void setMillingAxisSmallValueSize(int val) { prefs.edit().putInt("MillingAxisSmallValueSize", val).apply(); }
-
-
-
+    public String getMillingAxisSmallValueSize() {return prefs.getString("MillingAxisSmallValueSize", "33");  }
+    public void setMillingAxisSmallValueSize(String val) { prefs.edit().putString("MillingAxisSmallValueSize", val).apply(); }
 
 
 }

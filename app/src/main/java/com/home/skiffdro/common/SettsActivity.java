@@ -1,7 +1,9 @@
 package com.home.skiffdro.common;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
+import com.home.skiffdro.databinding.ActivitySettsBinding;
 import com.home.skiffdro.models.Setts;
 
 import android.app.AlertDialog;
@@ -14,19 +16,24 @@ import android.widget.ListView;
 
 import java.util.HashSet;
 import java.util.Set;
+import com.home.skiffdro.R;
 
 public class SettsActivity extends AppCompatActivity {
 
-    //ActivitySettsBinding binding;
+    ActivitySettsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //binding = DataBindingUtil.setContentView(this, R.layout.activity_setts);
-        Setts.getInstance(this);
-        //binding.setS(model);
 
-        //binding.cmdSelDevices.setOnClickListener(v-> { SelBTDevice(); });
+        binding = ActivitySettsBinding.inflate(getLayoutInflater());
+
+        binding.setLifecycleOwner(this);
+
+        setContentView(binding.getRoot());
+        binding.setSetts(Setts.instance);
+
+        binding.cmdSelDevices.setOnClickListener(v-> { SelBTDevice(); });
     }
 
     private void SelBTDevice() { // Создание списка сопряжённых Bluetooth-устройств
@@ -46,8 +53,7 @@ public class SettsActivity extends AppCompatActivity {
                     for (int k = 0; k < arrayAdapter.getCount(); k++)
                         if (positions.get(k)) Lst.add(arrayAdapter.getItem(k));
 
-                    Setts s = Setts.getInstance();
-                    s.setBTDevicesList(Lst);
+                    Setts.instance.setBTDevicesList(Lst);
 
                     d.dismiss();
                     finish();

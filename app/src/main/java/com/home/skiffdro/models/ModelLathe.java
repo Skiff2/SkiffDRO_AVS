@@ -13,6 +13,8 @@ public class ModelLathe {
     public LatheTool SelTool = Tools[0];
     public int ToolNum = 1;
 
+    public boolean ZasABS = false;
+
     public String D, L, X, Z; //Экранные оторбажаемые значения
 
     //double ScalesOffsetX = 0; //Значение локального обнуления
@@ -39,7 +41,7 @@ public class ModelLathe {
     //Применение значения линейки по Z
     public void setScalesValZ(Double ScalesValZ) {
         this.ScalesValZ = ScalesValZ;
-        Z = Utils.ValToPrint((ScalesValZ-ScalesOffsetZ));
+        Z = Utils.ValToPrint(ZasABS? Math.abs(ScalesValZ-ScalesOffsetZ):(ScalesValZ-ScalesOffsetZ));
 
         if (ScalesLsetZ == 0)
             L = "---";

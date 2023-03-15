@@ -73,6 +73,7 @@ public class MiniLathe extends Fragment  implements ConnectionEvent {
     public double getD() { return binding.getMMiniLathe().getDval();}
     public double getL() { return binding.getMMiniLathe().getLval();}
 
+    public void SetZasABS(boolean asABS) { binding.getMMiniLathe().ZasABS = asABS; }
 
     public void Refresh(){ binding.invalidateAll();  }
 }

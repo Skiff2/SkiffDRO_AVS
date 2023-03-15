@@ -2,10 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
         <variable
-            name="S"
+            name="setts"
             type="com.home.skiffdro.models.Setts"/>
     </data>
 
@@ -20,6 +19,7 @@
             android:layout_height="wrap_content"
             android:text="Размер подписи главной оси"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
@@ -39,16 +39,16 @@
             android:layout_height="wrap_content"
             android:text="Названия осей:"
             android:textSize="16dp"
+            android:layout_marginStart="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
         <EditText
             android:id="@+id/txtLatheAxisSmallValueSize"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-            android:value="@={S.latheAxisBigValueSize}"
+            android:text="@={setts.latheAxisBigValueSize}"
             app:layout_constraintBottom_toBottomOf="@+id/textView20"
             app:layout_constraintStart_toEndOf="@+id/textView18"
             app:layout_constraintTop_toTopOf="@+id/textView20" />
@@ -56,10 +56,10 @@
         <EditText
             android:id="@+id/txtMillingAxisSmallValueSize"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-            android:value="@={S.millingAxisSmallValueSize}"
+            android:text="@={setts.millingAxisSmallValueSize}"
             app:layout_constraintBottom_toBottomOf="@+id/textView29"
             app:layout_constraintStart_toEndOf="@+id/textView18"
             app:layout_constraintTop_toTopOf="@+id/textView29" />
@@ -73,7 +73,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView19"
             app:layout_constraintStart_toEndOf="@+id/txtLatheAxisBigNameSize"
             app:layout_constraintTop_toTopOf="@+id/textView19"
-            tools:ignore="RtlCompat" />
+            />
 
         <TextView
             android:id="@+id/textView29"
@@ -84,15 +84,15 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView28"
             app:layout_constraintStart_toEndOf="@+id/txtLatheAxisBigNameSize"
             app:layout_constraintTop_toBottomOf="@+id/textView26"
-            tools:ignore="RtlCompat" />
+            />
 
         <EditText
             android:id="@+id/txtLatheAxisSmallNameSize"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-            android:value="@={S.latheAxisSmallNameSize}"
+            android:text="@={setts.latheAxisSmallNameSize}"
             app:layout_constraintBottom_toBottomOf="@+id/textView19"
             app:layout_constraintStart_toEndOf="@+id/textView15"
             app:layout_constraintTop_toTopOf="@+id/textView19" />
@@ -100,10 +100,10 @@
         <EditText
             android:id="@+id/txtMillingAxisSmallNameSize"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-            android:value="@={S.millingAxisSmallNameSize}"
+            android:text="@={setts.millingAxisSmallNameSize}"
             app:layout_constraintBottom_toBottomOf="@+id/textView28"
             app:layout_constraintStart_toEndOf="@+id/textView15"
             app:layout_constraintTop_toBottomOf="@+id/textView26" />
@@ -113,6 +113,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
             android:text="Размер значения главной оси"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView15" />
@@ -123,16 +124,17 @@
             android:layout_height="wrap_content"
             android:text="Размер значения главной оси"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
         <EditText
             android:id="@+id/txtLatheAxisBigValueSize"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-            android:value="@={S.latheAxisBigValueSize}"
+            android:text="@={setts.latheAxisBigValueSize}"
             app:layout_constraintBottom_toBottomOf="@+id/textView15"
             app:layout_constraintStart_toEndOf="@+id/textView18"
             app:layout_constraintTop_toTopOf="@+id/textView15" />
@@ -140,10 +142,10 @@
         <EditText
             android:id="@+id/txtMillingAxisBigValueSize"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-            android:value="@={S.millingAxisBigValueSize}"
+            android:text="@={setts.millingAxisBigValueSize}"
             app:layout_constraintBottom_toBottomOf="@+id/textView27"
             app:layout_constraintStart_toEndOf="@+id/textView18"
             app:layout_constraintTop_toTopOf="@+id/textView27" />
@@ -157,7 +159,7 @@
             android:text="Размер подписи мини оси"
             app:layout_constraintStart_toEndOf="@+id/txtLatheAxisBigNameSize"
             app:layout_constraintTop_toBottomOf="@+id/textView11"
-            tools:ignore="RtlCompat" />
+            />
 
         <TextView
             android:id="@+id/textView27"
@@ -167,15 +169,15 @@
             android:text="Размер подписи мини оси"
             app:layout_constraintStart_toEndOf="@+id/txtLatheAxisBigNameSize"
             app:layout_constraintTop_toTopOf="@+id/textView26"
-            tools:ignore="RtlCompat" />
+            />
 
         <EditText
             android:id="@+id/txtLatheAxisNameD"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@={S.latheAxisNameD}"
+            android:text="@={setts.latheAxisNameD}"
             app:layout_constraintBottom_toBottomOf="@+id/txtLatheAxisNameL"
             app:layout_constraintStart_toEndOf="@+id/textView17"
             app:layout_constraintTop_toTopOf="@+id/txtLatheAxisNameL" />
@@ -189,15 +191,15 @@
             android:textSize="23sp"
             app:layout_constraintStart_toEndOf="@+id/txtLatheAxisNameL"
             app:layout_constraintTop_toTopOf="@+id/textView10"
-            tools:ignore="RtlCompat" />
+            />
 
         <EditText
             android:id="@+id/txtLatheAxisNameL"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@={S.latheAxisNameL}"
+            android:text="@={setts.latheAxisNameL}"
             app:layout_constraintBottom_toBottomOf="@+id/txtLatheAxisNameZ"
             app:layout_constraintStart_toEndOf="@+id/textView16"
             app:layout_constraintTop_toTopOf="@+id/txtLatheAxisNameZ" />
@@ -205,10 +207,10 @@
         <EditText
             android:id="@+id/txtMillingAxisNameZ"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@={S.millingAxisNameZ}"
+            android:text="@={setts.millingAxisNameZ}"
             app:layout_constraintBottom_toBottomOf="@+id/textView25"
             app:layout_constraintStart_toEndOf="@+id/textView16"
             app:layout_constraintTop_toTopOf="@+id/textView23" />
@@ -222,7 +224,7 @@
             android:textSize="23sp"
             app:layout_constraintStart_toEndOf="@+id/txtLatheAxisNameZ"
             app:layout_constraintTop_toTopOf="@+id/textView10"
-            tools:ignore="RtlCompat" />
+            />
 
         <TextView
             android:id="@+id/textView25"
@@ -239,6 +241,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
             android:text="Размер подписи главной оси"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -247,6 +250,7 @@
             android:id="@+id/textView11"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:text="Названия осей:"
             android:textSize="16dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -256,34 +260,34 @@
             android:id="@+id/chAutosart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{S.isAutostart}"
-            android:onCheckedChanged="@{(v, c) -> S.isAutostart}"
+            android:checked="@{setts.isAutostart}"
+            android:onCheckedChanged="@{(v, c) -> setts.isAutostart}"
             android:paddingEnd="15dp"
             android:text="Автозапуск"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chUseUSB"
-            tools:ignore="RtlCompat" />
+            />
 
         <CheckBox
             android:id="@+id/chUseFullScreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{S.isUseFullScreen}"
-            android:onCheckedChanged="@{(v, c) -> S.isUseFullScreen}"
+            android:checked="@{setts.isUseFullScreen}"
+            android:onCheckedChanged="@{(v, c) -> setts.isUseFullScreen}"
             android:paddingEnd="15dp"
             android:text="Разворачиваться на полный экран"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llOpt"
-            tools:ignore="RtlCompat" />
+            />
 
         <CheckBox
             android:id="@+id/chUseUSB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{S.isUseUSB}"
-            android:onCheckedChanged="@{(v, c) -> S.isUseUSB}"
+            android:checked="@{setts.isUseUSB}"
+            android:onCheckedChanged="@{(v, c) -> setts.isUseUSB}"
             android:text="Разрешить использование USB"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -315,19 +319,19 @@
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
                     android:layout_marginEnd="15dp"
-                    android:checked="@{S.isPortret}"
-                    android:onClick="@{()->S.isPortret}"
+                    android:checked="@{setts.isPortret}"
+                    android:onClick="@{()->setts.isPortret}"
                     android:text="Под портрет"
                     android:textSize="16sp"
-                    tools:ignore="RtlCompat" />
+                    />
 
                 <RadioButton
                     android:id="@+id/optAlbum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
-                    android:checked="@{S.isLandscape}"
-                    android:onClick="@{()->S.isLandscape}"
+                    android:checked="@{setts.isLandscape}"
+                    android:onClick="@{()->setts.isLandscape}"
                     android:text="Под альбом"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -359,8 +363,8 @@
             android:id="@+id/chShow4LatheTool"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{S.isShow4LatheTool}"
-            android:onCheckedChanged="@{(v, c) -> S.isShow4LatheTool}"
+            android:checked="@{setts.isShow4LatheTool}"
+            android:onCheckedChanged="@{(v, c) -> setts.isShow4LatheTool}"
 
             android:text="Показывать 4 инструмента"
             android:textSize="16sp"
@@ -413,7 +417,7 @@
             android:textSize="23sp"
             app:layout_constraintStart_toEndOf="@+id/txtLatheAxisNameX"
             app:layout_constraintTop_toTopOf="@+id/textView10"
-            tools:ignore="RtlCompat" />
+            />
 
         <TextView
             android:id="@+id/textView23"
@@ -425,14 +429,14 @@
             app:layout_constraintBottom_toBottomOf="@+id/txtMillingAxisNameX"
             app:layout_constraintStart_toEndOf="@+id/txtLatheAxisNameX"
             app:layout_constraintTop_toTopOf="@+id/txtMillingAxisNameX"
-            tools:ignore="RtlCompat" />
+            />
 
         <EditText
             android:id="@+id/txtLatheAxisNameX"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="@={S.latheAxisNameX}"
+            android:text="@={setts.latheAxisNameX}"
             app:layout_constraintBottom_toBottomOf="@+id/textView10"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toTopOf="@+id/textView10" />
@@ -440,9 +444,9 @@
         <EditText
             android:id="@+id/txtMillingAxisNameX"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="@={S.millingAxisNameX}"
+            android:text="@={setts.millingAxisNameX}"
             app:layout_constraintBottom_toBottomOf="@+id/textView22"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toTopOf="@+id/textView22" />
@@ -450,20 +454,20 @@
         <EditText
             android:id="@+id/txtLatheAxisNameZ"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@={S.latheAxisNameZ}"
+            android:text="@={setts.latheAxisNameZ}"
             app:layout_constraintStart_toEndOf="@+id/textView12"
             app:layout_constraintTop_toTopOf="@+id/txtLatheAxisNameX" />
 
         <EditText
             android:id="@+id/txtMillingAxisNameY"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@={S.millingAxisNameY}"
+            android:text="@={setts.millingAxisNameY}"
             app:layout_constraintBottom_toBottomOf="@+id/textView23"
             app:layout_constraintStart_toEndOf="@+id/textView12"
             app:layout_constraintTop_toTopOf="@+id/textView23" />
@@ -471,10 +475,10 @@
         <EditText
             android:id="@+id/txtLatheAxisBigNameSize"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-            android:value="@={S.latheAxisBigNameSize}"
+            android:text="@={setts.latheAxisBigNameSize}"
             app:layout_constraintBottom_toBottomOf="@+id/textView15"
             app:layout_constraintStart_toEndOf="@+id/textView15"
             app:layout_constraintTop_toTopOf="@+id/textView15" />
@@ -482,10 +486,10 @@
         <EditText
             android:id="@+id/txtMillingAxisBigNameSize"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-            android:value="@={S.millingAxisBigNameSize}"
+            android:text="@={setts.millingAxisBigNameSize}"
             app:layout_constraintBottom_toBottomOf="@+id/textView26"
             app:layout_constraintStart_toEndOf="@+id/textView15"
             app:layout_constraintTop_toTopOf="@+id/textView26" />

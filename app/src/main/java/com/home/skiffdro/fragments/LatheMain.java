@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.home.skiffdro.R;
-import com.home.skiffdro.common.Setts;
 import com.home.skiffdro.common.connections.BT;
 import com.home.skiffdro.common.connections.Connection;
 import com.home.skiffdro.common.connections.ConnectionEvent;
@@ -22,6 +21,7 @@ import com.home.skiffdro.common.connections.IConnection;
 import com.home.skiffdro.common.dialogs.InputDialog;
 import com.home.skiffdro.databinding.FragmentLatheMainBinding;
 import com.home.skiffdro.models.ModelLathe;
+import com.home.skiffdro.models.Setts;
 
 public class LatheMain extends Fragment implements ConnectionEvent {
     FragmentLatheMainBinding binding;
@@ -53,8 +53,7 @@ public class LatheMain extends Fragment implements ConnectionEvent {
         cmdSetD = (Button) getView().findViewById(R.id.cmdSetD);
         cmdSetL = (Button) getView().findViewById(R.id.cmdSetL);
 
-        Setts s = Setts.getInstance();
-        if (!s.getIsShow4LatheTool())
+        if (!Setts.instance.getIsShow4LatheTool())
             getView().findViewById(R.id.ToolPannel).setVisibility(View.GONE);
 
         //Установка диаметра
