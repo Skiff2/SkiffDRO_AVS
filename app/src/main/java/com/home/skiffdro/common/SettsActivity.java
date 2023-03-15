@@ -1,47 +1,32 @@
 package com.home.skiffdro.common;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 
-import com.home.skiffdro.MainActivity;
-import com.home.skiffdro.R;
-import com.home.skiffdro.databinding.ActivitySettsBinding;
-import com.home.skiffdro.databinding.FragmentLatheMainBinding;
-import com.home.skiffdro.models.ModelLathe;
-import com.home.skiffdro.models.SettsModel;
+import com.home.skiffdro.models.Setts;
 
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 public class SettsActivity extends AppCompatActivity {
 
-    ActivitySettsBinding binding;
-    SettsModel model;
+    //ActivitySettsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_setts);
-        model = new SettsModel();
-        binding.setSets(model);
+        //binding = DataBindingUtil.setContentView(this, R.layout.activity_setts);
+        Setts.getInstance(this);
+        //binding.setS(model);
 
-        binding.cmdSelDevices.setOnClickListener(v-> { SelBTDevice(); });
+        //binding.cmdSelDevices.setOnClickListener(v-> { SelBTDevice(); });
     }
 
     private void SelBTDevice() { // Создание списка сопряжённых Bluetooth-устройств
