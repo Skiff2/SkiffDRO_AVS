@@ -8,6 +8,7 @@ import androidx.databinding.BindingAdapter;
 import com.home.skiffdro.common.Utils;
 
 public class ModelLathe {
+    public Setts Setts;
 
     public LatheTool Tools[] = {new LatheTool(), new LatheTool(), new LatheTool(), new LatheTool()};
     public LatheTool SelTool = Tools[0];
@@ -26,6 +27,7 @@ public class ModelLathe {
     double ScalesValZ = 0; //текущее АБСОЛЮТНОЕ значение линейки
     public double ScalesLsetZ = 0; //Установленный размер диаметра
     public double ScalesLfixZ = 0; //АБСОЛЮТНОЕ значение линейки для установленного диаметра
+
 
     //Применение значения линейки по X
     public void setScalesValX(Double ScalesValX) {

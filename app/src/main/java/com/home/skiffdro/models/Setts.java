@@ -63,16 +63,19 @@ public class Setts {
     public String getLatheAxisNameL() {return prefs.getString("LatheAxisNameL", "L");  }
     public void setLatheAxisNameL(String val) { prefs.edit().putString("LatheAxisNameL", val).apply(); }
 
-
+    public int iLatheAxisBigNameSize() {try{ return Math.max(Integer.parseInt(getLatheAxisBigNameSize()),5); } catch (Exception ex){ return 5;} }
     public String getLatheAxisBigNameSize() {return prefs.getString("LatheAxisBigNameSize", "42");  }
     public void setLatheAxisBigNameSize(String val) { prefs.edit().putString("LatheAxisBigNameSize", val).apply(); }
 
+    public int iLatheAxisBigValueSize() {try{ return Math.max(Integer.parseInt(getLatheAxisBigValueSize()),5); } catch (Exception ex){ return 5;} }
     public String getLatheAxisBigValueSize() {return prefs.getString("LatheAxisBigValueSize", "70");  }
     public void setLatheAxisBigValueSize(String val) { prefs.edit().putString("LatheAxisBigValueSize", val).apply(); }
 
+    public int iLatheAxisSmallNameSize() {try{ return Math.max(Integer.parseInt(getLatheAxisSmallNameSize()),5); } catch (Exception ex){ return 5;} }
     public String getLatheAxisSmallNameSize() {return prefs.getString("LatheAxisSmallNameSize", "30");  }
     public void setLatheAxisSmallNameSize(String val) { prefs.edit().putString("LatheAxisSmallNameSize", val).apply(); }
 
+    public int iLatheAxisSmallValueSize() {try{ return Math.max(Integer.parseInt(getLatheAxisSmallValueSize()),5); } catch (Exception ex){ return 5;} }
     public String getLatheAxisSmallValueSize() {return prefs.getString("LatheAxisSmallValueSize", "33");  }
     public void setLatheAxisSmallValueSize(String val) { prefs.edit().putString("LatheAxisSmallValueSize", val).apply(); }
 
@@ -87,15 +90,19 @@ public class Setts {
     public void setMillingAxisNameZ(String val) { prefs.edit().putString("MillingAxisNameZ", val).apply(); }
 
 
+    public int iMillingAxisBigNameSize() {try{ return Math.max(Integer.parseInt(getMillingAxisBigNameSize()),5); } catch (Exception ex){ return 5;} }
     public String getMillingAxisBigNameSize() {return prefs.getString("MillingAxisBigNameSize", "42");  }
     public void setMillingAxisBigNameSize(String val) { prefs.edit().putString("MillingAxisBigNameSize", val).apply(); }
 
+    public int iMillingAxisBigValueSize() {try{ return Math.max(Integer.parseInt(getMillingAxisBigValueSize()),5); } catch (Exception ex){ return 5;} }
     public String getMillingAxisBigValueSize() {return prefs.getString("MillingAxisBigValueSize", "70");  }
     public void setMillingAxisBigValueSize(String val) { prefs.edit().putString("MillingAxisBigValueSize", val).apply(); }
 
+    public int iMillingAxisSmallNameSize() {try{ return Math.max(Integer.parseInt(getMillingAxisSmallNameSize()),5); } catch (Exception ex){ return 5;} }
     public String getMillingAxisSmallNameSize() {return prefs.getString("MillingAxisSmallNameSize", "30");  }
     public void setMillingAxisSmallNameSize(String val) { prefs.edit().putString("MillingAxisSmallNameSize", val).apply(); }
 
+    public int iMillingAxisSmallValueSize() {try{ return Math.max(Integer.parseInt(getMillingAxisSmallValueSize()),5); } catch (Exception ex){ return 5;} }
     public String getMillingAxisSmallValueSize() {return prefs.getString("MillingAxisSmallValueSize", "33");  }
     public void setMillingAxisSmallValueSize(String val) { prefs.edit().putString("MillingAxisSmallValueSize", val).apply(); }
 

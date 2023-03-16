@@ -35,16 +35,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="20dp"
-                        android:text="X:"
+                        android:text="@{mLathe.Setts.instance.latheAxisNameX + ':'}"
                         android:textColor="#000080"
-                        android:textSize="42dp" />
+                        android:textSize="@{mLathe.Setts.instance.iLatheAxisBigNameSize}" />
 
                     <TextView
                         android:id="@+id/lblX"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#000080"
-                        android:textSize="70dp"
+                        android:textSize="@{mLathe.Setts.instance.iLatheAxisBigValueSize()}"
                         android:textStyle="bold"
                         android:text="@{mLathe.X}"/>
 
@@ -69,16 +69,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="20dp"
-                        android:text="D:"
+                        android:text="@{mLathe.Setts.instance.latheAxisNameD + ':'}"
                         android:textColor="#000080"
-                        android:textSize="42dp" />
+                        android:textSize="@{mLathe.Setts.instance.iLatheAxisBigNameSize}" />
 
                     <TextView
                         android:id="@+id/lblD"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#000080"
-                        android:textSize="70dp"
+                        android:textSize="@{mLathe.Setts.instance.iLatheAxisBigValueSize()}"
                         android:textStyle="bold"
                         android:text="@{mLathe.D}"/>
 
@@ -102,9 +102,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="20dp"
-                        android:text="Z:"
+                        android:text="@{mLathe.Setts.instance.latheAxisNameZ + ':'}"
                         android:textColor="#000080"
-                        android:textSize="42dp" />
+                        android:textSize="@{mLathe.Setts.instance.iLatheAxisBigNameSize}" />
 
                     <TextView
                         android:id="@+id/lblY"
@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:text="@{mLathe.Z}"
                         android:textColor="#000080"
-                        android:textSize="70dp"
+                        android:textSize="@{mLathe.Setts.instance.iLatheAxisBigValueSize()}"
                         android:textStyle="bold"/>
 
                     <Button
@@ -135,9 +135,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="20dp"
-                        android:text="L:"
+                        android:text="@{mLathe.Setts.instance.latheAxisNameL + ':'}"
                         android:textColor="#000080"
-                        android:textSize="42dp" />
+                        android:textSize="@{mLathe.Setts.instance.iLatheAxisBigNameSize}" />
 
                     <TextView
                         android:id="@+id/lblL"
@@ -145,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:text="@{mLathe.L}"
                         android:textColor="#000080"
-                        android:textSize="70dp"
+                        android:textSize="@{mLathe.Setts.instance.iLatheAxisBigValueSize()}"
                         android:textStyle="bold"/>
 
                     <Button

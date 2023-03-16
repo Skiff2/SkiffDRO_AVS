@@ -5,6 +5,8 @@ import com.home.skiffdro.common.Utils;
 import java.io.Serializable;
 
 public class ModelMilling implements Serializable {
+    public Setts Setts;
+
     public String strCX, strCY, strX, strY, strZ; //Отображаемое
     public boolean ShowResetX = true, ShowResetY = true;
 

@@ -35,9 +35,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="20dp"
-                        android:text="X:"
+                        android:text="@{mMilling.Setts.instance.millingAxisNameX + ':'}"
                         android:textColor="#000080"
-                        android:textSize="42dp" />
+                        android:textSize="@{mMilling.Setts.instance.iMillingAxisBigNameSize}" />
 
                     <TextView
                         android:id="@+id/lblXi"
@@ -45,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:text="@{mMilling.strX}"
                         android:textColor="#000080"
-                        android:textSize="70dp"
+                        android:textSize="@{mMilling.Setts.instance.iMillingAxisBigValueSize()}"
                         android:textStyle="bold"/>
 
                     <Button
@@ -69,9 +69,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="20dp"
-                        android:text="Y:"
+                        android:text="@{mMilling.Setts.instance.millingAxisNameY + ':'}"
                         android:textColor="#000080"
-                        android:textSize="42dp" />
+                        android:textSize="@{mMilling.Setts.instance.iMillingAxisBigNameSize}"/>
 
                     <TextView
                         android:id="@+id/lblYi"
@@ -79,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:text="@{mMilling.strY}"
                         android:textColor="#000080"
-                        android:textSize="70dp"
+                        android:textSize="@{mMilling.Setts.instance.iMillingAxisBigValueSize()}"
                         android:textStyle="bold"/>
 
                     <Button
@@ -103,9 +103,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="20dp"
-                        android:text="Z:"
+                        android:text="@{mMilling.Setts.instance.millingAxisNameZ + ':'}"
                         android:textColor="#000080"
-                        android:textSize="42dp" />
+                        android:textSize="@{mMilling.Setts.instance.iMillingAxisBigNameSize}" />
 
                     <TextView
                         android:id="@+id/lblZi"
@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:text="@{mMilling.strZ}"
                         android:textColor="#000080"
-                        android:textSize="70dp"
+                        android:textSize="@{mMilling.Setts.instance.iMillingAxisBigValueSize()}"
                         android:textStyle="bold"/>
 
                     <Button
@@ -149,10 +149,10 @@
                         android:paddingLeft="3dp"
                         android:paddingTop="5dp"
                         android:paddingRight="22dp"
-                        android:text="X:"
+                        android:text="@{mMilling.Setts.instance.millingAxisNameX + ':'}"
 
                         android:textColor="#000080"
-                        android:textSize="32dp"
+                        android:textSize="@{mMilling.Setts.instance.iMillingAxisSmallNameSize}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -163,9 +163,9 @@
                         android:paddingLeft="3dp"
                         android:paddingTop="8dp"
                         android:paddingRight="22dp"
-                        android:text="Y:"
+                        android:text="@{mMilling.Setts.instance.millingAxisNameY + ':'}"
                         android:textColor="#000080"
-                        android:textSize="32dp"
+                        android:textSize="@{mMilling.Setts.instance.iMillingAxisSmallNameSize}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -176,7 +176,7 @@
                         android:paddingBottom="3dp"
                         android:text="@{mMilling.strCX}"
                         android:textColor="#000080"
-                        android:textSize="34sp"
+                        android:textSize="@{mMilling.Setts.instance.iMillingAxisSmallValueSize()}"
                         app:layout_constraintStart_toEndOf="@+id/textView4"
                         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -186,7 +186,7 @@
                         android:layout_height="wrap_content"
                         android:text="@{mMilling.strCY}"
                         android:textColor="#000080"
-                        android:textSize="34sp"
+                        android:textSize="@{mMilling.Setts.instance.iMillingAxisSmallValueSize()}"
                         app:layout_constraintStart_toEndOf="@+id/textView5"
                         app:layout_constraintTop_toBottomOf="@+id/lblСX" />
 
@@ -197,7 +197,7 @@
                         android:layout_gravity="center_vertical"
                         android:textSize="25dp"
                         android:onClick="@{() -> mMilling.SetX1()}"
-                        android:text="@{mMilling.X1Setted()? &quot;[X1]&quot; : &quot;X1&quot;}"
+                        android:text="@{mMilling.X1Setted()? '[' + mMilling.Setts.instance.millingAxisNameX + '1'+']' : mMilling.Setts.instance.millingAxisNameX +'1'}"
                         app:layout_constraintEnd_toStartOf="@+id/cmdSetY2"
                         style="@style/AppTheme.Button"
                         android:layout_marginRight="10dp"
@@ -210,7 +210,7 @@
                         android:layout_gravity="center_vertical"
                         android:textSize="25dp"
                         android:onClick="@{() -> mMilling.SetY1()}"
-                        android:text="@{mMilling.Y1Setted()? &quot;[Y1]&quot; : &quot;Y1&quot;}"
+                        android:text="@{mMilling.Y1Setted()? '[' + mMilling.Setts.instance.millingAxisNameY + '1'+']' : mMilling.Setts.instance.millingAxisNameY +'1'}"
                         app:layout_constraintEnd_toStartOf="@+id/cmdSetX2"
                         style="@style/AppTheme.Button"
                         android:layout_marginRight="10dp"
@@ -224,7 +224,7 @@
                         android:layout_gravity="center_vertical"
                         android:textSize="25dp"
                         android:onClick="@{() -> mMilling.SetX2()}"
-                        android:text="@{mMilling.X2Setted()? &quot;[X2]&quot; : &quot;X2&quot;}"
+                        android:text="@{mMilling.X2Setted()? '[' + mMilling.Setts.instance.millingAxisNameX + '2'+']' : mMilling.Setts.instance.millingAxisNameX +'2'}"
                         app:layout_constraintEnd_toEndOf="parent"
                         style="@style/AppTheme.Button"
                         android:layout_marginRight="10dp"
@@ -237,7 +237,7 @@
                         android:layout_gravity="center_vertical"
                         android:textSize="25dp"
                         android:onClick="@{() -> mMilling.SetY2()}"
-                        android:text="@{mMilling.Y2Setted()? &quot;[Y2]&quot; : &quot;Y2&quot;}"
+                        android:text="@{mMilling.Y2Setted()? '[' + mMilling.Setts.instance.millingAxisNameY + '2'+']' : mMilling.Setts.instance.millingAxisNameY +'2'}"
                         app:layout_constraintEnd_toEndOf="parent"
                         style="@style/AppTheme.Button"
                         android:layout_marginRight="10dp"
