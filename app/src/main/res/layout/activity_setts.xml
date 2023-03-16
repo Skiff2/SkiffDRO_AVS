@@ -260,8 +260,7 @@
             android:id="@+id/chAutosart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{setts.isAutostart}"
-            android:onCheckedChanged="@{(v, c) -> setts.isAutostart}"
+            android:checked="@={setts.isAutostart}"
             android:paddingEnd="15dp"
             android:text="Автозапуск"
             android:textSize="16sp"
@@ -273,8 +272,7 @@
             android:id="@+id/chUseFullScreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{setts.isUseFullScreen}"
-            android:onCheckedChanged="@{(v, c) -> setts.isUseFullScreen}"
+            android:checked="@={setts.isUseFullScreen}"
             android:paddingEnd="15dp"
             android:text="Разворачиваться на полный экран"
             android:textSize="16sp"
@@ -286,8 +284,7 @@
             android:id="@+id/chUseUSB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{setts.isUseUSB}"
-            android:onCheckedChanged="@{(v, c) -> setts.isUseUSB}"
+            android:checked="@={setts.isUseUSB}"
             android:text="Разрешить использование USB"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -312,28 +309,31 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/textView6">
+                    <RadioGroup
+                        android:id="@+id/radioGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/optPortret"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:layout_marginEnd="15dp"
+                        android:checked="@={setts.isPortret}"
+                        android:text="Под портрет"
+                        android:textSize="16sp"
+                        />
 
-                <RadioButton
-                    android:id="@+id/optPortret"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp"
-                    android:layout_marginEnd="15dp"
-                    android:checked="@{setts.isPortret}"
-                    android:onClick="@{()->setts.isPortret}"
-                    android:text="Под портрет"
-                    android:textSize="16sp"
-                    />
-
-                <RadioButton
-                    android:id="@+id/optAlbum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp"
-                    android:checked="@{setts.isLandscape}"
-                    android:onClick="@{()->setts.isLandscape}"
-                    android:text="Под альбом"
-                    android:textSize="16sp" />
+                    <RadioButton
+                        android:id="@+id/optAlbum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:checked="@={setts.isLandscape}"
+                        android:text="Под альбом"
+                        android:textSize="16sp" />
+                </RadioGroup>
             </LinearLayout>
 
         <TextView
@@ -363,9 +363,7 @@
             android:id="@+id/chShow4LatheTool"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{setts.isShow4LatheTool}"
-            android:onCheckedChanged="@{(v, c) -> setts.isShow4LatheTool}"
-
+            android:checked="@={setts.isShow4LatheTool}"
             android:text="Показывать 4 инструмента"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"

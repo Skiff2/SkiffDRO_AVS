@@ -27,7 +27,7 @@ public class Setts {
 
     //Портретный режим
     public boolean getIsLandscape() {return !prefs.getBoolean("IsPortret", false);  }
-    public void setLandscape(boolean val) { prefs.edit().putBoolean("IsPortret", !val).apply(); }
+    public void setIsLandscape(boolean val) { prefs.edit().putBoolean("IsPortret", !val).apply(); }
 
     //Показывать 4 инстурмента в токарном режиме
     public boolean getIsShow4LatheTool() {return prefs.getBoolean("IsShow4LatheTool", true);  }
