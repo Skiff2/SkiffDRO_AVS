@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.home.skiffdro.R;
 import com.home.skiffdro.common.Utils;
 import com.home.skiffdro.models.ItemModel;
+import com.home.skiffdro.models.Setts;
 
 import java.util.List;
 
@@ -62,6 +63,10 @@ public class ItemAdapter  extends RecyclerView.Adapter<ItemAdapter.ViewHolder>{
         holder.ch_Check.setScaleX(1.5f);
         holder.ch_Check.setScaleY(1.5f);
         holder.ch_Check.setOnClickListener(view -> i.setCheck(!i.getCheck()));
+
+        holder.tv_A.setTextSize(Setts.instance.iItemValueSize());
+        holder.tv_B.setTextSize(Setts.instance.iItemValueSize());
+        holder.tv_NN.setTextSize(Setts.instance.iItemValueSize());
     }
 
     @Override

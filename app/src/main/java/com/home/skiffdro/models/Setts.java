@@ -106,5 +106,8 @@ public class Setts {
     public String getMillingAxisSmallValueSize() {return prefs.getString("MillingAxisSmallValueSize", "33");  }
     public void setMillingAxisSmallValueSize(String val) { prefs.edit().putString("MillingAxisSmallValueSize", val).apply(); }
 
-
+    //Элементы расчёта
+    public int iItemValueSize() {try{ return Math.max(Integer.parseInt(getItemValueSize()),5); } catch (Exception ex){ return 5;} }
+    public String getItemValueSize() {return prefs.getString("ItemValueSize", "26");  }
+    public void setItemValueSize(String val) { prefs.edit().putString("ItemValueSize", val).apply(); }
 }
